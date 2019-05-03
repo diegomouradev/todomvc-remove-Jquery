@@ -6,7 +6,7 @@ jQuery(function ($) {
 		return a === b ? options.fn(this) : options.inverse(this);
 	});
 //test test test test
-	var ENTER_KEY = 13; why didnt this save
+	var ENTER_KEY = 13; 
 	var ESCAPE_KEY = 27;
 
 	var util = {
