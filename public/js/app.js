@@ -39,6 +39,18 @@ jQuery(function ($) {
 	};
 
   
+  function indexFromEl(el) {
+    var id = $(el).closest('li').data('id');
+    var todos = App.todos;
+    var i = todos.length;
+
+    while (i--) {
+      if (todos[i].id === id) {
+        return i;
+      }
+    }
+  }
+  
   
   
   
@@ -128,17 +140,17 @@ jQuery(function ($) {
 		},
 		// accepts an element from inside the `.item` div and
 		// returns the corresponding index in the `todos` array
-		indexFromEl: function (el) {
-			var id = $(el).closest('li').data('id');
-			var todos = this.todos;
-			var i = todos.length;
+// 		indexFromEl: function (el) {
+// 			var id = $(el).closest('li').data('id');
+// 			var todos = this.todos;
+// 			var i = todos.length;
 
-			while (i--) {
-				if (todos[i].id === id) {
-					return i;
-				}
-			}
-		},
+// 			while (i--) {
+// 				if (todos[i].id === id) {
+// 					return i;
+// 				}
+// 			}
+// 		},
 		create: function (e) {
 			var $input = $(e.target);
 			var val = $input.val().trim();
@@ -158,7 +170,9 @@ jQuery(function ($) {
 			this.render();
 		},
 		toggle: function (e) {
-			var i = this.indexFromEl(e.target);
+	//		var i = this.indexFromEl(e.target);
+      var i = indexFromEl(e.target);
+
 			this.todos[i].completed = !this.todos[i].completed;
 			this.render();
 		},
@@ -188,14 +202,17 @@ jQuery(function ($) {
 			if ($el.data('abort')) {
 				$el.data('abort', false);
 			} else {
-				this.todos[this.indexFromEl(el)].title = val;
+		//		this.todos[this.indexFromEl(el)].title = val;
+        this.todos[this.indexFromEl(el)].title = val;
 			}
 
 			this.render();
 		},
 		destroy: function (e) {
+		//	this.todos.splice(this.indexFromEl(e.target), 1);
 			this.todos.splice(this.indexFromEl(e.target), 1);
-			this.render();
+
+      this.render();
 		}
 	};
 
