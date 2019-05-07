@@ -5,38 +5,36 @@ jQuery(function ($) {
 	Handlebars.registerHelper('eq', function (a, b, options) {
 		return a === b ? options.fn(this) : options.inverse(this);
 	});
-//test test test test
 	var ENTER_KEY = 13; 
 	var ESCAPE_KEY = 27;
 
   
   //           ***util object***
-  //             Functions  
+  //             Functions without methods 
   //
-  
-  
+  function uuid() {
+    /*jshint bitwise:false */
+    var i, random;
+    var uuid = '';
+
+    for (i = 0; i < 32; i++) {
+      random = Math.random() * 16 | 0;
+      if (i === 8 || i === 12 || i === 16 || i === 20) {
+        uuid += '-';
+      }
+      uuid += (i === 12 ? 4 : (i === 16 ? (random & 3 | 8) : random)).toString(16);
+    }
+
+    return uuid;
+  }
+  function pluralize(count, word) {
+			return count === 1 ? word : word + 's';
+		}
   
   
   
 	var util = {
-		uuid: function () {
-			/*jshint bitwise:false */
-			var i, random;
-			var uuid = '';
 
-			for (i = 0; i < 32; i++) {
-				random = Math.random() * 16 | 0;
-				if (i === 8 || i === 12 || i === 16 || i === 20) {
-					uuid += '-';
-				}
-				uuid += (i === 12 ? 4 : (i === 16 ? (random & 3 | 8) : random)).toString(16);
-			}
-
-			return uuid;
-		},
-		pluralize: function (count, word) {
-			return count === 1 ? word : word + 's';
-		},
 		store: function (namespace, data) {
 			if (arguments.length > 1) {
 				return localStorage.setItem(namespace, JSON.stringify(data));
@@ -109,7 +107,7 @@ jQuery(function ($) {
 				return;
 			}
 			App.todos.push({
-				id: util.uuid(),
+				id: uuid(),
 				title: val,
 				completed: false
 			});
@@ -148,7 +146,7 @@ jQuery(function ($) {
 			var activeTodoCount = getActiveTodos().length;
 			var template = App.footerTemplate({
 				activeTodoCount: activeTodoCount,
-				activeTodoWord: util.pluralize(activeTodoCount, 'item'),
+				activeTodoWord: pluralize(activeTodoCount, 'item'),
 				completedTodos: todoCount - activeTodoCount,
 				filter: App.filter
 			});
