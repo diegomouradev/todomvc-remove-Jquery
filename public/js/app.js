@@ -90,8 +90,33 @@ jQuery(function ($) {
       App.filter = 'all';
       App.render();
     }
+    function getFilteredTodos() {
+			if (App.filter === 'active') {
+				return App.getActiveTodos();
+			}
+			if (App.filter === 'completed') {
+				return App.getCompletedTodos();
+			}
+			return App.todos;
+		}
+    function create(e) {
+			var $input = $(e.target);
+			var val = $input.val().trim();
 
-  
+			if (e.which !== ENTER_KEY || !val) {
+				return;
+			}
+
+			App.todos.push({
+				id: util.uuid(),
+				title: val,
+				completed: false
+			});
+
+			$input.val('');
+
+			App.render();
+		}
   
   
   //
@@ -114,7 +139,7 @@ jQuery(function ($) {
 			}).init('/all');      
 		},
 		bindEvents: function () {
-			$('#new-todo').on('keyup', this.create.bind(this));
+			$('#new-todo').on('keyup', create.bind(this));
 			$('#toggle-all').on('change', toggleAll.bind(this));
 			$('#footer').on('click', '#clear-completed', destroyCompleted.bind(this));
 			$('#todo-list')
@@ -125,7 +150,7 @@ jQuery(function ($) {
 				.on('click', '.destroy', destroy.bind(this));
 		},
 		render: function () {
-			var todos = this.getFilteredTodos();
+			var todos = getFilteredTodos();
 			$('#todo-list').html(this.todoTemplate(todos));
 			$('#main').toggle(todos.length > 0);
 			$('#toggle-all').prop('checked', this.getActiveTodos().length === 0);
@@ -155,39 +180,8 @@ jQuery(function ($) {
 				return todo.completed;
 			});
 		},
-// 		getFilteredTodos: function () {
-// 			if (this.filter === 'active') {
-// 				return this.getActiveTodos();
-// 			}
-
-// 			if (this.filter === 'completed') {
-// 				return this.getCompletedTodos();
-// 			}
-
-// 			return this.todos;
-// 		},
-		create: function (e) {
-			var $input = $(e.target);
-			var val = $input.val().trim();
-
-			if (e.which !== ENTER_KEY || !val) {
-				return;
-			}
-
-			this.todos.push({
-				id: util.uuid(),
-				title: val,
-				completed: false
-			});
-
-			$input.val('');
-
-			this.render();
-		},
 		toggle: function (e) {
-	//		var i = this.indexFromEl(e.target);
       var i = indexFromEl(e.target);
-
 			this.todos[i].completed = !this.todos[i].completed;
 			this.render();
 		},
