@@ -30,20 +30,17 @@ jQuery(function ($) {
   function pluralize(count, word) {
 			return count === 1 ? word : word + 's';
 		}
+  function store(namespace, data) {
+    if (arguments.length > 1) {
+      return localStorage.setItem(namespace, JSON.stringify(data));
+    } else {
+      var store = localStorage.getItem(namespace);
+      return (store && JSON.parse(store)) || [];
+    }
+  }
   
   
-  
-	var util = {
-
-		store: function (namespace, data) {
-			if (arguments.length > 1) {
-				return localStorage.setItem(namespace, JSON.stringify(data));
-			} else {
-				var store = localStorage.getItem(namespace);
-				return (store && JSON.parse(store)) || [];
-			}
-		}
-	};
+	var util = {}
 
   //            *App Object*
   // FUNCTIONS W/OUT METHODS
@@ -159,7 +156,7 @@ jQuery(function ($) {
 			$('#toggle-all').prop('checked', getActiveTodos().length === 0);
 			renderFooter();
 			$('#new-todo').focus();
-			util.store('todos-jquery', App.todos);
+			store('todos-jquery', App.todos);
 		}
     function bindEvents() {
 			$('#new-todo').on('keyup', create.bind(App));
@@ -173,7 +170,7 @@ jQuery(function ($) {
 				.on('click', '.destroy', destroy.bind(App));
 		}
     function init() {
-			App.todos = util.store('todos-jquery');
+			App.todos = store('todos-jquery');
 			App.todoTemplate = Handlebars.compile($('#todo-template').html());
 			App.footerTemplate = Handlebars.compile($('#footer-template').html());
 			bindEvents();
