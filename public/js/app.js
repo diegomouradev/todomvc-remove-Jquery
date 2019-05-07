@@ -82,16 +82,16 @@ jQuery(function ($) {
       App.render();
     }
     function destroyCompleted() {
-      App.todos = App.getActiveTodos();
+      App.todos = getActiveTodos();
       App.filter = 'all';
       App.render();
     }
     function getFilteredTodos() {
 			if (App.filter === 'active') {
-				return App.getActiveTodos();
+				return getActiveTodos();
 			}
 			if (App.filter === 'completed') {
-				return App.getCompletedTodos();
+				return getCompletedTodos();
 			}
 			return App.todos;
 		}
@@ -126,9 +126,28 @@ jQuery(function ($) {
 				$(e.target).data('abort', true).blur();
 			}
 		}
-  
-  
-  
+    function getCompletedTodos() {
+			return App.todos.filter(function (todo) {
+				return todo.completed;
+			});
+		}
+    function getActiveTodos() {
+			return App.todos.filter(function (todo) {
+				return !todo.completed;
+			});
+		}
+    function renderFooter() {
+			var todoCount = App.todos.length;
+			var activeTodoCount = getActiveTodos().length;
+			var template = App.footerTemplate({
+				activeTodoCount: activeTodoCount,
+				activeTodoWord: util.pluralize(activeTodoCount, 'item'),
+				completedTodos: todoCount - activeTodoCount,
+				filter: App.filter
+			});
+
+			$('#footer').toggle(todoCount > 0).html(template);
+		}
   
   
   
@@ -168,64 +187,23 @@ jQuery(function ($) {
 			var todos = getFilteredTodos();
 			$('#todo-list').html(this.todoTemplate(todos));
 			$('#main').toggle(todos.length > 0);
-			$('#toggle-all').prop('checked', this.getActiveTodos().length === 0);
+			$('#toggle-all').prop('checked', getActiveTodos().length === 0);
 			this.renderFooter();
 			$('#new-todo').focus();
 			util.store('todos-jquery', this.todos);
 		},
-		renderFooter: function () {
-			var todoCount = this.todos.length;
-			var activeTodoCount = this.getActiveTodos().length;
-			var template = this.footerTemplate({
-				activeTodoCount: activeTodoCount,
-				activeTodoWord: util.pluralize(activeTodoCount, 'item'),
-				completedTodos: todoCount - activeTodoCount,
-				filter: this.filter
-			});
+// 		renderFooter: function () {
+// 			var todoCount = this.todos.length;
+// 			var activeTodoCount = getActiveTodos().length;
+// 			var template = this.footerTemplate({
+// 				activeTodoCount: activeTodoCount,
+// 				activeTodoWord: util.pluralize(activeTodoCount, 'item'),
+// 				completedTodos: todoCount - activeTodoCount,
+// 				filter: this.filter
+// 			});
 
-			$('#footer').toggle(todoCount > 0).html(template);
-		},
-		getActiveTodos: function () {
-			return this.todos.filter(function (todo) {
-				return !todo.completed;
-			});
-		},
-		getCompletedTodos: function () {
-			return this.todos.filter(function (todo) {
-				return todo.completed;
-			});
-		},
-		// edit: function (e) {
-		// 	var $input = $(e.target).closest('li').addClass('editing').find('.edit');
-		// 	$input.val($input.val()).focus();
-		// },
-// 		editKeyup: function (e) {
-// 			if (e.which === ENTER_KEY) {
-// 				e.target.blur();
-// 			}
-
-// 			if (e.which === ESCAPE_KEY) {
-// 				$(e.target).data('abort', true).blur();
-// 			}
-// 		},
-// 		update: function (e) {
-// 			var el = e.target;
-// 			var $el = $(el);
-// 			var val = $el.val().trim();
-
-// 			if (!val) {
-// 				destroy(e);
-// 				return;
-// 			}
-
-// 			if ($el.data('abort')) {
-// 				$el.data('abort', false);
-// 			} else {
-//         this.todos[indexFromEl(el)].title = val;
-// 			}
-
-// 			this.render();
-//     }
+// 			$('#footer').toggle(todoCount > 0).html(template);
+// 		}
 	};
 
 	App.init();
