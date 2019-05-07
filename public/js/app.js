@@ -50,13 +50,32 @@ jQuery(function ($) {
       }
     }
   }
-  
   function destroy(e) {
-    App.todos.splice(this.indexFromEl(e.target), 1);
-// 			this.todos.splice(indexFromEl(e.target), 1);
+    App.todos.splice(indexFromEl(e.target), 1);
 
        App.render();
  		}
+    function update(e) {
+			var el = e.target;
+			var $el = $(el);
+			var val = $el.val().trim();
+
+			if (!val) {
+				destroy(e);
+				return;
+			}
+
+			if ($el.data('abort')) {
+				$el.data('abort', false);
+			} else {
+        App.todos[indexFromEl(el)].title = val;
+			}
+
+			App.render();
+    }
+  
+  
+  
   
   
   
@@ -82,7 +101,7 @@ jQuery(function ($) {
 				.on('change', '.toggle', this.toggle.bind(this))
 				.on('dblclick', 'label', this.edit.bind(this))
 				.on('keyup', '.edit', this.editKeyup.bind(this))
-				.on('focusout', '.edit', this.update.bind(this))
+				.on('focusout', '.edit', update.bind(this))
 				.on('click', '.destroy', destroy.bind(this));
 		},
 		render: function () {
@@ -141,19 +160,6 @@ jQuery(function ($) {
 			this.filter = 'all';
 			this.render();
 		},
-		// accepts an element from inside the `.item` div and
-		// returns the corresponding index in the `todos` array
-// 		indexFromEl: function (el) {
-// 			var id = $(el).closest('li').data('id');
-// 			var todos = this.todos;
-// 			var i = todos.length;
-
-// 			while (i--) {
-// 				if (todos[i].id === id) {
-// 					return i;
-// 				}
-// 			}
-// 		},
 		create: function (e) {
 			var $input = $(e.target);
 			var val = $input.val().trim();
@@ -192,31 +198,24 @@ jQuery(function ($) {
 				$(e.target).data('abort', true).blur();
 			}
 		},
-		update: function (e) {
-			var el = e.target;
-			var $el = $(el);
-			var val = $el.val().trim();
+// 		update: function (e) {
+// 			var el = e.target;
+// 			var $el = $(el);
+// 			var val = $el.val().trim();
 
-			if (!val) {
-				destroy(e);
-				return;
-			}
+// 			if (!val) {
+// 				destroy(e);
+// 				return;
+// 			}
 
-			if ($el.data('abort')) {
-				$el.data('abort', false);
-			} else {
-		//		this.todos[this.indexFromEl(el)].title = val;
-        this.todos[this.indexFromEl(el)].title = val;
-			}
+// 			if ($el.data('abort')) {
+// 				$el.data('abort', false);
+// 			} else {
+//         this.todos[indexFromEl(el)].title = val;
+// 			}
 
-			this.render();
-		}
-// 		destroy: function (e) {
-// 		//	this.todos.splice(this.indexFromEl(e.target), 1);
-// 			this.todos.splice(indexFromEl(e.target), 1);
-
-//       this.render();
-// 		}
+// 			this.render();
+//     }
 	};
 
 	App.init();
