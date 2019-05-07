@@ -38,6 +38,10 @@ jQuery(function ($) {
 		}
 	};
 
+  //
+  // FUNCTIONS W/OUT METHODS
+  //
+  
   
   function indexFromEl(el) {
     var id = $(el).closest('li').data('id');
@@ -63,7 +67,7 @@ jQuery(function ($) {
 			if (!val) {
 				destroy(e);
 				return;
-			}
+			
 
 			if ($el.data('abort')) {
 				$el.data('abort', false);
@@ -73,10 +77,27 @@ jQuery(function ($) {
 
 			App.render();
     }
+      function toggleAll(e) {
+			var isChecked = $(e.target).prop('checked');
+
+			App.todos.forEach(function (todo) {
+				todo.completed = isChecked;
+			});
+
+			App.render();
+		}
+     function destroyCompleted() {
+			App.todos = this.getActiveTodos();
+			this.filter = 'all';
+			this.render();
+		}
   
   
   
   
+  //
+  // OLD APP OBJECT>>> REVERTING TO FUNCTIONS
+  //
   
   
 	var App = {
@@ -95,8 +116,8 @@ jQuery(function ($) {
 		},
 		bindEvents: function () {
 			$('#new-todo').on('keyup', this.create.bind(this));
-			$('#toggle-all').on('change', this.toggleAll.bind(this));
-			$('#footer').on('click', '#clear-completed', this.destroyCompleted.bind(this));
+			$('#toggle-all').on('change', toggleAll.bind(this));
+			$('#footer').on('click', '#clear-completed', destroyCompleted.bind(this));
 			$('#todo-list')
 				.on('change', '.toggle', this.toggle.bind(this))
 				.on('dblclick', 'label', this.edit.bind(this))
@@ -125,15 +146,6 @@ jQuery(function ($) {
 
 			$('#footer').toggle(todoCount > 0).html(template);
 		},
-		toggleAll: function (e) {
-			var isChecked = $(e.target).prop('checked');
-
-			this.todos.forEach(function (todo) {
-				todo.completed = isChecked;
-			});
-
-			this.render();
-		},
 		getActiveTodos: function () {
 			return this.todos.filter(function (todo) {
 				return !todo.completed;
@@ -155,11 +167,11 @@ jQuery(function ($) {
 
 			return this.todos;
 		},
-		destroyCompleted: function () {
-			this.todos = this.getActiveTodos();
-			this.filter = 'all';
-			this.render();
-		},
+		// destroyCompleted: function () {
+		// 	this.todos = this.getActiveTodos();
+		// 	this.filter = 'all';
+		// 	this.render();
+		// },
 		create: function (e) {
 			var $input = $(e.target);
 			var val = $input.val().trim();
