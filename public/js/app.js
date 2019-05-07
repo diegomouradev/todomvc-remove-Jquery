@@ -63,11 +63,9 @@ jQuery(function ($) {
       var el = e.target;
       var $el = $(el);
       var val = $el.val().trim();
-
       if (!val) {
         destroy(e);
         return;
-
       if ($el.data('abort')) {
         $el.data('abort', false);
       } else {
@@ -78,11 +76,9 @@ jQuery(function ($) {
     }
     function toggleAll(e) {
       var isChecked = $(e.target).prop('checked');
-
       App.todos.forEach(function (todo) {
         todo.completed = isChecked;
       });
-
       App.render();
     }
     function destroyCompleted() {
@@ -102,21 +98,40 @@ jQuery(function ($) {
     function create(e) {
 			var $input = $(e.target);
 			var val = $input.val().trim();
-
 			if (e.which !== ENTER_KEY || !val) {
 				return;
 			}
-
 			App.todos.push({
 				id: util.uuid(),
 				title: val,
 				completed: false
 			});
-
 			$input.val('');
-
 			App.render();
 		}
+    function toggle(e) {
+      var i = indexFromEl(e.target);
+			App.todos[i].completed = !App.todos[i].completed;
+			App.render();
+		}
+    function edit(e) {
+			var $input = $(e.target).closest('li').addClass('editing').find('.edit');
+			$input.val($input.val()).focus();
+		} 
+    function editKeyup(e) {
+			if (e.which === ENTER_KEY) {
+				e.target.blur();
+			}
+			if (e.which === ESCAPE_KEY) {
+				$(e.target).data('abort', true).blur();
+			}
+		}
+  
+  
+  
+  
+  
+  
   
   
   //
@@ -143,9 +158,9 @@ jQuery(function ($) {
 			$('#toggle-all').on('change', toggleAll.bind(this));
 			$('#footer').on('click', '#clear-completed', destroyCompleted.bind(this));
 			$('#todo-list')
-				.on('change', '.toggle', this.toggle.bind(this))
-				.on('dblclick', 'label', this.edit.bind(this))
-				.on('keyup', '.edit', this.editKeyup.bind(this))
+				.on('change', '.toggle', toggle.bind(this))
+				.on('dblclick', 'label', edit.bind(this))
+				.on('keyup', '.edit', editKeyup.bind(this))
 				.on('focusout', '.edit', update.bind(this))
 				.on('click', '.destroy', destroy.bind(this));
 		},
@@ -180,24 +195,19 @@ jQuery(function ($) {
 				return todo.completed;
 			});
 		},
-		toggle: function (e) {
-      var i = indexFromEl(e.target);
-			this.todos[i].completed = !this.todos[i].completed;
-			this.render();
-		},
-		edit: function (e) {
-			var $input = $(e.target).closest('li').addClass('editing').find('.edit');
-			$input.val($input.val()).focus();
-		},
-		editKeyup: function (e) {
-			if (e.which === ENTER_KEY) {
-				e.target.blur();
-			}
+		// edit: function (e) {
+		// 	var $input = $(e.target).closest('li').addClass('editing').find('.edit');
+		// 	$input.val($input.val()).focus();
+		// },
+// 		editKeyup: function (e) {
+// 			if (e.which === ENTER_KEY) {
+// 				e.target.blur();
+// 			}
 
-			if (e.which === ESCAPE_KEY) {
-				$(e.target).data('abort', true).blur();
-			}
-		},
+// 			if (e.which === ESCAPE_KEY) {
+// 				$(e.target).data('abort', true).blur();
+// 			}
+// 		},
 // 		update: function (e) {
 // 			var el = e.target;
 // 			var $el = $(el);
