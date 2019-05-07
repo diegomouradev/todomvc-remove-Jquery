@@ -9,6 +9,15 @@ jQuery(function ($) {
 	var ENTER_KEY = 13; 
 	var ESCAPE_KEY = 27;
 
+  
+  //           ***util object***
+  //             Functions  
+  //
+  
+  
+  
+  
+  
 	var util = {
 		uuid: function () {
 			/*jshint bitwise:false */
@@ -38,11 +47,9 @@ jQuery(function ($) {
 		}
 	};
 
-  //
+  //            *App Object*
   // FUNCTIONS W/OUT METHODS
   //
-  
-  
     function indexFromEl(el) {
       var id = $(el).closest('li').data('id');
       var todos = App.todos;
@@ -145,7 +152,6 @@ jQuery(function ($) {
 				completedTodos: todoCount - activeTodoCount,
 				filter: App.filter
 			});
-
 			$('#footer').toggle(todoCount > 0).html(template);
 		}
     function render() {
@@ -158,50 +164,28 @@ jQuery(function ($) {
 			util.store('todos-jquery', App.todos);
 		}
     function bindEvents() {
-			$('#new-todo').on('keyup', create.bind(this));
-			$('#toggle-all').on('change', toggleAll.bind(this));
-			$('#footer').on('click', '#clear-completed', destroyCompleted.bind(this));
+			$('#new-todo').on('keyup', create.bind(App));
+			$('#toggle-all').on('change', toggleAll.bind(App));
+			$('#footer').on('click', '#clear-completed', destroyCompleted.bind(App));
 			$('#todo-list')
-				.on('change', '.toggle', toggle.bind(this))
-				.on('dblclick', 'label', edit.bind(this))
-				.on('keyup', '.edit', editKeyup.bind(this))
-				.on('focusout', '.edit', update.bind(this))
-				.on('click', '.destroy', destroy.bind(this));
+				.on('change', '.toggle', toggle.bind(App))
+				.on('dblclick', 'label', edit.bind(App))
+				.on('keyup', '.edit', editKeyup.bind(App))
+				.on('focusout', '.edit', update.bind(App))
+				.on('click', '.destroy', destroy.bind(App));
 		}
-  
-  
-  
-  //
-  // OLD APP OBJECT>>> REVERTING TO FUNCTIONS
-  //
-  
-  
-	var App = {
-		init: function () {
-			this.todos = util.store('todos-jquery');
-			this.todoTemplate = Handlebars.compile($('#todo-template').html());
-			this.footerTemplate = Handlebars.compile($('#footer-template').html());
-			this.bindEvents();
-
+    function init() {
+			App.todos = util.store('todos-jquery');
+			App.todoTemplate = Handlebars.compile($('#todo-template').html());
+			App.footerTemplate = Handlebars.compile($('#footer-template').html());
+			bindEvents();
       new Router({
 				'/:filter': function (filter) {
-					this.filter = filter;
+					App.filter = filter;
 					render();
-				}.bind(this)
+				}.bind(App)
 			}).init('/all');      
-		},
-		// bindEvents: function () {
-		// 	$('#new-todo').on('keyup', create.bind(this));
-		// 	$('#toggle-all').on('change', toggleAll.bind(this));
-		// 	$('#footer').on('click', '#clear-completed', destroyCompleted.bind(this));
-		// 	$('#todo-list')
-		// 		.on('change', '.toggle', toggle.bind(this))
-		// 		.on('dblclick', 'label', edit.bind(this))
-		// 		.on('keyup', '.edit', editKeyup.bind(this))
-		// 		.on('focusout', '.edit', update.bind(this))
-		// 		.on('click', '.destroy', destroy.bind(this));
-		// }
-	};
-
-	App.init();
+		} 
+	var App = {};
+	init();
 });
