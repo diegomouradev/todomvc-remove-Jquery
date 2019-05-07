@@ -39,7 +39,7 @@ jQuery(function ($) {
 	};
 
   
-  function h(el) {
+  function indexFromEl(el) {
     var id = $(el).closest('li').data('id');
     var todos = App.todos;
     var i = todos.length;
@@ -51,9 +51,12 @@ jQuery(function ($) {
     }
   }
   
-  
-  
-  
+  function destroy(e) {
+    App.todos.splice(this.indexFromEl(e.target), 1);
+// 			this.todos.splice(indexFromEl(e.target), 1);
+
+       App.render();
+ 		}
   
   
   
@@ -80,7 +83,7 @@ jQuery(function ($) {
 				.on('dblclick', 'label', this.edit.bind(this))
 				.on('keyup', '.edit', this.editKeyup.bind(this))
 				.on('focusout', '.edit', this.update.bind(this))
-				.on('click', '.destroy', this.destroy.bind(this));
+				.on('click', '.destroy', destroy.bind(this));
 		},
 		render: function () {
 			var todos = this.getFilteredTodos();
@@ -195,7 +198,7 @@ jQuery(function ($) {
 			var val = $el.val().trim();
 
 			if (!val) {
-				this.destroy(e);
+				destroy(e);
 				return;
 			}
 
@@ -207,13 +210,13 @@ jQuery(function ($) {
 			}
 
 			this.render();
-		},
-		destroy: function (e) {
-		//	this.todos.splice(this.indexFromEl(e.target), 1);
-			this.todos.splice(this.indexFromEl(e.target), 1);
-
-      this.render();
 		}
+// 		destroy: function (e) {
+// 		//	this.todos.splice(this.indexFromEl(e.target), 1);
+// 			this.todos.splice(indexFromEl(e.target), 1);
+
+//       this.render();
+// 		}
 	};
 
 	App.init();
