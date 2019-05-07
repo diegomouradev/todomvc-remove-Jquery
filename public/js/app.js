@@ -39,7 +39,7 @@ jQuery(function ($) {
 	};
 
   
-  function indexFromEl(el) {
+  function h(el) {
     var id = $(el).closest('li').data('id');
     var todos = App.todos;
     var i = todos.length;
