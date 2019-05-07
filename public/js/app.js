@@ -43,55 +43,54 @@ jQuery(function ($) {
   //
   
   
-  function indexFromEl(el) {
-    var id = $(el).closest('li').data('id');
-    var todos = App.todos;
-    var i = todos.length;
+    function indexFromEl(el) {
+      var id = $(el).closest('li').data('id');
+      var todos = App.todos;
+      var i = todos.length;
 
-    while (i--) {
-      if (todos[i].id === id) {
-        return i;
+      while (i--) {
+        if (todos[i].id === id) {
+          return i;
+        }
       }
     }
-  }
-  function destroy(e) {
-    App.todos.splice(indexFromEl(e.target), 1);
+    function destroy(e) {
+      App.todos.splice(indexFromEl(e.target), 1);
 
-       App.render();
- 		}
-    function update(e) {
-			var el = e.target;
-			var $el = $(el);
-			var val = $el.val().trim();
-
-			if (!val) {
-				destroy(e);
-				return;
-			
-
-			if ($el.data('abort')) {
-				$el.data('abort', false);
-			} else {
-        App.todos[indexFromEl(el)].title = val;
-			}
-
-			App.render();
+         App.render();
     }
-      function toggleAll(e) {
-			var isChecked = $(e.target).prop('checked');
+    function update(e) {
+      var el = e.target;
+      var $el = $(el);
+      var val = $el.val().trim();
 
-			App.todos.forEach(function (todo) {
-				todo.completed = isChecked;
-			});
+      if (!val) {
+        destroy(e);
+        return;
 
-			App.render();
-		}
-     function destroyCompleted() {
-			App.todos = this.getActiveTodos();
-			this.filter = 'all';
-			this.render();
-		}
-  
+      if ($el.data('abort')) {
+        $el.data('abort', false);
+      } else {
+        App.todos[indexFromEl(el)].title = val;
+      }
+      }
+      App.render();
+    }
+    function toggleAll(e) {
+      var isChecked = $(e.target).prop('checked');
+
+      App.todos.forEach(function (todo) {
+        todo.completed = isChecked;
+      });
+
+      App.render();
+    }
+    function destroyCompleted() {
+      App.todos = App.getActiveTodos();
+      App.filter = 'all';
+      App.render();
+    }
+
   
   
   
@@ -156,22 +155,17 @@ jQuery(function ($) {
 				return todo.completed;
 			});
 		},
-		getFilteredTodos: function () {
-			if (this.filter === 'active') {
-				return this.getActiveTodos();
-			}
+// 		getFilteredTodos: function () {
+// 			if (this.filter === 'active') {
+// 				return this.getActiveTodos();
+// 			}
 
-			if (this.filter === 'completed') {
-				return this.getCompletedTodos();
-			}
+// 			if (this.filter === 'completed') {
+// 				return this.getCompletedTodos();
+// 			}
 
-			return this.todos;
-		},
-		// destroyCompleted: function () {
-		// 	this.todos = this.getActiveTodos();
-		// 	this.filter = 'all';
-		// 	this.render();
-		// },
+// 			return this.todos;
+// 		},
 		create: function (e) {
 			var $input = $(e.target);
 			var val = $input.val().trim();
