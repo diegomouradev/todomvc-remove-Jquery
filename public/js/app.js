@@ -57,7 +57,7 @@ jQuery(function ($) {
     function destroy(e) {
       App.todos.splice(indexFromEl(e.target), 1);
 
-         App.render();
+         render();
     }
     function update(e) {
       var el = e.target;
@@ -72,19 +72,19 @@ jQuery(function ($) {
         App.todos[indexFromEl(el)].title = val;
       }
       }
-      App.render();
+      render();
     }
     function toggleAll(e) {
       var isChecked = $(e.target).prop('checked');
       App.todos.forEach(function (todo) {
         todo.completed = isChecked;
       });
-      App.render();
+      render();
     }
     function destroyCompleted() {
       App.todos = getActiveTodos();
       App.filter = 'all';
-      App.render();
+      render();
     }
     function getFilteredTodos() {
 			if (App.filter === 'active') {
@@ -107,12 +107,12 @@ jQuery(function ($) {
 				completed: false
 			});
 			$input.val('');
-			App.render();
+			render();
 		}
     function toggle(e) {
       var i = indexFromEl(e.target);
 			App.todos[i].completed = !App.todos[i].completed;
-			App.render();
+			render();
 		}
     function edit(e) {
 			var $input = $(e.target).closest('li').addClass('editing').find('.edit');
@@ -148,8 +148,26 @@ jQuery(function ($) {
 
 			$('#footer').toggle(todoCount > 0).html(template);
 		}
-  
-  
+    function render() {
+			var todos = getFilteredTodos();
+			$('#todo-list').html(App.todoTemplate(todos));
+			$('#main').toggle(todos.length > 0);
+			$('#toggle-all').prop('checked', getActiveTodos().length === 0);
+			renderFooter();
+			$('#new-todo').focus();
+			util.store('todos-jquery', App.todos);
+		}
+    function bindEvents() {
+			$('#new-todo').on('keyup', create.bind(this));
+			$('#toggle-all').on('change', toggleAll.bind(this));
+			$('#footer').on('click', '#clear-completed', destroyCompleted.bind(this));
+			$('#todo-list')
+				.on('change', '.toggle', toggle.bind(this))
+				.on('dblclick', 'label', edit.bind(this))
+				.on('keyup', '.edit', editKeyup.bind(this))
+				.on('focusout', '.edit', update.bind(this))
+				.on('click', '.destroy', destroy.bind(this));
+		}
   
   
   
@@ -168,42 +186,21 @@ jQuery(function ($) {
       new Router({
 				'/:filter': function (filter) {
 					this.filter = filter;
-					this.render();
+					render();
 				}.bind(this)
 			}).init('/all');      
 		},
-		bindEvents: function () {
-			$('#new-todo').on('keyup', create.bind(this));
-			$('#toggle-all').on('change', toggleAll.bind(this));
-			$('#footer').on('click', '#clear-completed', destroyCompleted.bind(this));
-			$('#todo-list')
-				.on('change', '.toggle', toggle.bind(this))
-				.on('dblclick', 'label', edit.bind(this))
-				.on('keyup', '.edit', editKeyup.bind(this))
-				.on('focusout', '.edit', update.bind(this))
-				.on('click', '.destroy', destroy.bind(this));
-		},
-		render: function () {
-			var todos = getFilteredTodos();
-			$('#todo-list').html(this.todoTemplate(todos));
-			$('#main').toggle(todos.length > 0);
-			$('#toggle-all').prop('checked', getActiveTodos().length === 0);
-			this.renderFooter();
-			$('#new-todo').focus();
-			util.store('todos-jquery', this.todos);
-		},
-// 		renderFooter: function () {
-// 			var todoCount = this.todos.length;
-// 			var activeTodoCount = getActiveTodos().length;
-// 			var template = this.footerTemplate({
-// 				activeTodoCount: activeTodoCount,
-// 				activeTodoWord: util.pluralize(activeTodoCount, 'item'),
-// 				completedTodos: todoCount - activeTodoCount,
-// 				filter: this.filter
-// 			});
-
-// 			$('#footer').toggle(todoCount > 0).html(template);
-// 		}
+		// bindEvents: function () {
+		// 	$('#new-todo').on('keyup', create.bind(this));
+		// 	$('#toggle-all').on('change', toggleAll.bind(this));
+		// 	$('#footer').on('click', '#clear-completed', destroyCompleted.bind(this));
+		// 	$('#todo-list')
+		// 		.on('change', '.toggle', toggle.bind(this))
+		// 		.on('dblclick', 'label', edit.bind(this))
+		// 		.on('keyup', '.edit', editKeyup.bind(this))
+		// 		.on('focusout', '.edit', update.bind(this))
+		// 		.on('click', '.destroy', destroy.bind(this));
+		// }
 	};
 
 	App.init();
