@@ -65,18 +65,15 @@ jQuery(function ($) {
          render();
     }
     function update(e) {
-      var el = e.target;
-    //  var $el = $(el);
-     // var val = $el.val().trim();
+      var $el = $(el);
+      var val = $el.val().trim();
       var val = el.val().trim();
 
       if (!val) {
         destroy(e);
         return;
-    //  if ($el.data('abort')) {
-      if (el.data('abort')) {
-       // $el.data('abort', false);
-        el.data('abort', false);
+     if ($el.data('abort')) {
+        $el.data('abort', false);
       } else {
         App.todos[indexFromEl(el)].title = val;
       }
