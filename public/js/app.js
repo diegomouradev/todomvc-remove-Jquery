@@ -68,7 +68,7 @@ jQuery(function ($) {
       var el = e.target;
       var $el = $(el);
       var val = $el.val().trim();
-      var val = el.val().trim();
+      var val = $el.val().trim();
 
       if (!val) {
         destroy(e);
