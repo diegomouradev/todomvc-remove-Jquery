@@ -189,3 +189,11 @@ jQuery(function ($) {
 	var App = {};
 	init();
 });
+
+
+
+//
+// APP WITHOUT JQUERY
+//
+
+
