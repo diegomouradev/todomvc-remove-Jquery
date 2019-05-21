@@ -59,11 +59,11 @@ jQuery(function ($) {
         }
       }
     }
-//     function destroy(e) {
-//       App.todos.splice(indexFromEl(e.target), 1);
+    function destroy(e) {
+      App.todos.splice(indexFromEl(e.target), 1);
 
-//          render();
-//     }
+         render();
+    }
     function update(e) {
       var el = e.target;
       var $el = $(el);
@@ -174,19 +174,19 @@ jQuery(function ($) {
 				.on('focusout', '.edit', update.bind(App))
 				.on('click', '.destroy', destroy.bind(App));
 		}
-    function init() {
+		function init() {
 			App.todos = store('todos-jquery');
 			App.todoTemplate = Handlebars.compile($('#todo-template').html());
 			App.footerTemplate = Handlebars.compile($('#footer-template').html());
 			bindEvents();
-      new Router({
+		new Router({
 				'/:filter': function (filter) {
 					App.filter = filter;
 					render();
 				}.bind(App)
 			}).init('/all');      
 		} 
-	var App = {};
+	//var App = {};
 	init();
 });
 
@@ -197,11 +197,4 @@ jQuery(function ($) {
 //
 var App = {};
 var ENTER_KEY = 13; 
-	var ESCAPE_KEY = 27;
-
-function destroy(e) {
-      App.todos.splice(indexFromEl(e.target), 1);
-
-         render();
-}
-
+var ESCAPE_KEY = 27;
