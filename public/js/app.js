@@ -1,3 +1,18 @@
+//
+// MAIN FUNCTIONS WITHOUT JQUERY
+//
+/* use this event listener to run functions when DOM is ready */
+
+// document.addEventListener("DOMContentLoaded", function(event) { 
+//   var App = {};
+// });
+
+
+
+
+
+
+
 /*global jQuery, Handlebars, Router */
 jQuery(function ($) {
 	'use strict';
@@ -5,8 +20,8 @@ jQuery(function ($) {
 	Handlebars.registerHelper('eq', function (a, b, options) {
 		return a === b ? options.fn(this) : options.inverse(this);
 	});
-	// var ENTER_KEY = 13; 
-	// var ESCAPE_KEY = 27;
+	var ENTER_KEY = 13; 
+	var ESCAPE_KEY = 27;
 
   
   //           ***util object***
@@ -186,15 +201,8 @@ jQuery(function ($) {
 				}.bind(App)
 			}).init('/all');      
 		} 
-	//var App = {};
-	init();
+	 var App = {};
+	 init();
 });
 
 
-
-//
-// APP WITHOUT JQUERY
-//
-var App = {};
-var ENTER_KEY = 13; 
-var ESCAPE_KEY = 27;
