@@ -64,7 +64,8 @@ jQuery(function ($) {
   // FUNCTIONS W/OUT METHODS
   //
     function indexFromEl(el) {
-      var id = $(el).closest('li').data('id');
+      // var id = $(el).closest('li').data('id');
+      var id = el.closest('li').data('id');
       var todos = App.todos;
       var i = todos.length;
 
