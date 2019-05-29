@@ -179,8 +179,9 @@ jQuery(function ($) {
 			store('todos-jquery', App.todos);
 		}
     function bindEvents() {
-			$('#new-todo').on('keyup', create.bind(App));
-      
+// 			$('#new-todo').on('keyup', create.bind(App));
+      var id_new_todo = document.getElementById('new-todo');
+        id_new_todo.addEventListener("keyup", create.bind(App));
 			$('#toggle-all').on('change', toggleAll.bind(App));
 			$('#footer').on('click', '#clear-completed', destroyCompleted.bind(App));
 			$('#todo-list')
