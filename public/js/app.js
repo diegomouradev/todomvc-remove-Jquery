@@ -190,8 +190,9 @@ jQuery(function ($) {
       
       // $('#footer').on('click', '#clear-completed', destroyCompleted.bind(App));
       var id_footer = document.getElementById('footer');
-      // var id_clear_completed = document.getElementById('clear-completed');
-        id_footer.addEventListener("click", destroyCompleted.bind(App));
+        id_footer.addEventListener("click", function(event) {
+          
+        };
         
       // $('#todo-list')
       var id_todo_list = document.getElementById('todo-list');
