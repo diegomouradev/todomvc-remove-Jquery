@@ -192,12 +192,27 @@ jQuery(function ($) {
       var id_footer = document.getElementById('footer');
         id_footer.addEventListener("click", destroyCompleted.bind(App));
       
-      $('#todo-list')
-        .on('change', '.toggle', toggle.bind(App))
-				.on('dblclick', 'label', edit.bind(App))
-				.on('keyup', '.edit', editKeyup.bind(App))
-				.on('focusout', '.edit', update.bind(App))
-				.on('click', '.destroy', destroy.bind(App));
+      // $('#todo-list')
+      var id_todo_list = document.getElementById('todo-list');
+        id_todo_list.addEventListener("change", toggle.bind(App));
+        id_todo_list.addEventListener(".toggle", toggle.bind(App));
+        // .on('change', '.toggle', toggle.bind(App))
+           
+      id_todo_list.addEventListener("dblclick", );
+      id_todo_list.addEventListener("label", );
+			.on('dblclick', 'label', edit.bind(App))
+      
+      id_todo_list.addEventListener("", );
+      id_todo_list.addEventListener("", );
+			.on('keyup', '.edit', editKeyup.bind(App))
+      
+      id_todo_list.addEventListener("", );
+      id_todo_list.addEventListener("", );
+			.on('focusout', '.edit', update.bind(App))
+      
+      id_todo_list.addEventListener("", );
+      id_todo_list.addEventListener("", );
+      .on('click', '.destroy', destroy.bind(App));
     
 		}
 		function init() {
