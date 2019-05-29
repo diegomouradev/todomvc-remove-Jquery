@@ -65,7 +65,7 @@ jQuery(function ($) {
   //
     function indexFromEl(el) {
       // var id = $(el).closest('li').data('id');
-      var id = el.closest('li').data('id');
+      var id = el.closest('li').getAttribute('data-id');
       var todos = App.todos;
       var i = todos.length;
 
