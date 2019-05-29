@@ -189,7 +189,11 @@ jQuery(function ($) {
         id_toggle_all.addEventListener("change", toggleAll.bind(App));
       
       // $('#footer').on('click', '#clear-completed', destroyCompleted.bind(App));
-e     $('#todo-list')e				.on('change', '.toggle', toggle.bind(App))
+      var id_footer = document.getElementById('footer');
+        id_footer.addEventListener("click", destroyCompleted.bind(App));
+      
+      $('#todo-list')
+        .on('change', '.toggle', toggle.bind(App))
 				.on('dblclick', 'label', edit.bind(App))
 				.on('keyup', '.edit', editKeyup.bind(App))
 				.on('focusout', '.edit', update.bind(App))
@@ -211,6 +215,3 @@ e     $('#todo-list')e				.on('change', '.toggle', toggle.bind(App))
 	 var App = {};
 	 init();
 });
-
-
-e
