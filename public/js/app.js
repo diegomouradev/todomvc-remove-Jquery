@@ -179,17 +179,7 @@ jQuery(function ($) {
 			store('todos-jquery', App.todos);
 		}
     function bindEvents() {
-			// $('#new-todo').on('keyup', create.bind(App));
-			// $('#toggle-all').on('change', toggleAll.bind(App));
-			// $('#footer').on('click', '#clear-completed', destroyCompleted.bind(App));
-			// $('#todo-list')
-			// 	.on('change', '.toggle', toggle.bind(App))
-			// 	.on('dblclick', 'label', edit.bind(App))
-			// 	.on('keyup', '.edit', editKeyup.bind(App))
-			// 	.on('focusout', '.edit', update.bind(App))
-			// 	.on('click', '.destroy', destroy.bind(App));
-      var new_todo = Document.getElementById("new-todo")
-      new_todo.on('keyup', create.bind(App));
+			$('#new-todo').on('keyup', create.bind(App));
 			$('#toggle-all').on('change', toggleAll.bind(App));
 			$('#footer').on('click', '#clear-completed', destroyCompleted.bind(App));
 			$('#todo-list')
@@ -198,6 +188,7 @@ jQuery(function ($) {
 				.on('keyup', '.edit', editKeyup.bind(App))
 				.on('focusout', '.edit', update.bind(App))
 				.on('click', '.destroy', destroy.bind(App));
+    
 		}
 		function init() {
 			App.todos = store('todos-jquery');
