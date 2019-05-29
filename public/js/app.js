@@ -198,22 +198,22 @@ jQuery(function ($) {
         id_todo_list.addEventListener(".toggle", toggle.bind(App));
         // .on('change', '.toggle', toggle.bind(App))
            
-      id_todo_list.addEventListener("dblclick", );
-      id_todo_list.addEventListener("label", );
-			.on('dblclick', 'label', edit.bind(App))
-      
-      id_todo_list.addEventListener("", );
-      id_todo_list.addEventListener("", );
-			.on('keyup', '.edit', editKeyup.bind(App))
-      
-      id_todo_list.addEventListener("", );
-      id_todo_list.addEventListener("", );
-			.on('focusout', '.edit', update.bind(App))
-      
-      id_todo_list.addEventListener("", );
-      id_todo_list.addEventListener("", );
-      .on('click', '.destroy', destroy.bind(App));
-    
+        id_todo_list.addEventListener("dblclick", edit.bind(App));
+        id_todo_list.addEventListener("label", edit.bind(App));
+        // .on('dblclick', 'label', edit.bind(App))
+
+        id_todo_list.addEventListener("keyup", editKeyup.bind(App));
+        id_todo_list.addEventListener("edit", editKeyup.bind(App));
+        // .on('keyup', '.edit', editKeyup.bind(App))
+
+        id_todo_list.addEventListener("focusout", update.bind(App));
+        id_todo_list.addEventListener(".edit", update.bind(App));
+        // .on('focusout', '.edit', update.bind(App))
+
+        id_todo_list.addEventListener("click", destroy.bind(App));
+        // id_todo_list.addEventListener(".destroy", destroy.bind(App));
+        // .on('click', '.destroy', destroy.bind(App));
+
 		}
 		function init() {
 			App.todos = store('todos-jquery');
