@@ -179,46 +179,15 @@ jQuery(function ($) {
 			store('todos-jquery', App.todos);
 		}
     function bindEvents() {
-      
-      //$('#new-todo').on('keyup', create.bind(App));
-      var id_new_todo = document.getElementById('new-todo');
-        id_new_todo.addEventListener("keyup", create.bind(App));
-			
-      // $('#toggle-all').on('change', toggleAll.bind(App));
-      var id_toggle_all = document.getElementById('toggle-all');
-        id_toggle_all.addEventListener("change", toggleAll.bind(App));
-      
-      // $('#footer').on('click', '#clear-completed', destroyCompleted.bind(App));
-      var id_footer = document.getElementById('footer');
-        id_footer.addEventListener("click", function(event) {
-          if (event.target.id === 'clear-completed') {
-            destroyCompleted();
-          }
-        });
-        
-      // $('#todo-list')
-      var id_todo_list = document.getElementById('todo-list');
-        id_todo_list.addEventListener("change", toggle.bind(App));
-        id_todo_list.addEventListener(".toggle", toggle.bind(App));
-        // .on('change', '.toggle', toggle.bind(App))
-      $('#todo-list')
-           
-        id_todo_list.addEventListener("dblclick", ;
-     
-        // .on('dblclick', 'label', edit.bind(App))
-
-        // id_todo_list.addEventListener("keyup", editKeyup.bind(App));
-        // id_todo_list.addEventListener("edit", editKeyup.bind(App));
-        .on('keyup', '.edit', editKeyup.bind(App))
-
-        // id_todo_list.addEventListener("focusout", update.bind(App));
-        // id_todo_list.addEventListener(".edit", update.bind(App));
-        .on('focusout', '.edit', update.bind(App))
-
-        // id_todo_list.addEventListener("click", destroy.bind(App));
-        // id_todo_list.addEventListener(".destroy", destroy.bind(App));
-        .on('click', '.destroy', destroy.bind(App));
-
+			$('#new-todo').on('keyup', create.bind(App));
+			$('#toggle-all').on('change', toggleAll.bind(App));
+			$('#footer').on('click', '#clear-completed', destroyCompleted.bind(App));
+			$('#todo-list')
+				.on('change', '.toggle', toggle.bind(App))
+				.on('dblclick', 'label', edit.bind(App))
+				.on('keyup', '.edit', editKeyup.bind(App))
+				.on('focusout', '.edit', update.bind(App))
+				.on('click', '.destroy', destroy.bind(App));
 		}
 		function init() {
 			App.todos = store('todos-jquery');
