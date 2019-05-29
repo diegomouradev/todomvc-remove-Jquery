@@ -182,8 +182,10 @@ jQuery(function ($) {
 // 			$('#new-todo').on('keyup', create.bind(App));
       var id_new_todo = document.getElementById('new-todo');
         id_new_todo.addEventListener("keyup", create.bind(App));
-			$('#toggle-all').on('change', toggleAll.bind(App));
-			$('#footer').on('click', '#clear-completed', destroyCompleted.bind(App));
+			// $('#toggle-all').on('change', toggleAll.bind(App));
+      var id_toggle_all = document.getElementById('toggle-all');
+        id_toggle_all.addEventListener("change", toggleAll.bind(App));
+      $('#footer').on('click', '#clear-completed', destroyCompleted.bind(App));
 			$('#todo-list')
 				.on('change', '.toggle', toggle.bind(App))
 				.on('dblclick', 'label', edit.bind(App))
