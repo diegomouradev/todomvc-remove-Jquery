@@ -72,7 +72,7 @@ jQuery(function ($) {
       while (i--) {
         if (todos[i].id === id) {
           return i;
-        }
+        } 
       }
     }
     function destroy(e) {
