@@ -180,6 +180,7 @@ jQuery(function ($) {
 		}
     function bindEvents() {
 			$('#new-todo').on('keyup', create.bind(App));
+      
 			$('#toggle-all').on('change', toggleAll.bind(App));
 			$('#footer').on('click', '#clear-completed', destroyCompleted.bind(App));
 			$('#todo-list')
