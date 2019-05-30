@@ -187,7 +187,8 @@ jQuery(function ($) {
 			// $('#new-todo').on('keyup', create.bind(App));
       var  new_todo = document.getElementById('new-todo');
       // new_todo.addEventListener('keyup', create);  
-      new_todo.addEventListener('keyup', whatIsThis);        
+      new_todo.addEventListener('keyup', whatIsThis);  
+    
       $('#toggle-all').on('change', toggleAll.bind(App));
       var toggle_all
       
