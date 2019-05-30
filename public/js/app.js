@@ -178,14 +178,15 @@ jQuery(function ($) {
 			$('#new-todo').focus();
 			store('todos-jquery', App.todos);
 		}
+  
     function bindEvents() {
       function whatIsThis() {
         console.log(this);
       }
 			// $('#new-todo').on('keyup', create.bind(App));
       var  new_todo = document.getElementById('new-todo');
-        new_todo.addEventListener('keyup', create.bind(App));
-      
+      // new_todo.addEventListener('keyup', create.bind(App))  
+      new_todo.addEventListener('keyup', whatIsThis); 
 			$('#toggle-all').on('change', toggleAll.bind(App));
 			// $('#toggle-all').on('change', whatIsThis);
 
