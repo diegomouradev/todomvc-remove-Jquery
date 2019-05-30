@@ -186,8 +186,8 @@ jQuery(function ($) {
       var  new_todo = document.getElementById('new-todo');
         new_todo.addEventListener('keyup', create.bind(App));
       
-			// $('#toggle-all').on('change', toggleAll.bind(App));
-			$('#toggle-all').on('change', whatIsThis);
+			$('#toggle-all').on('change', toggleAll.bind(App));
+			// $('#toggle-all').on('change', whatIsThis);
 
       $('#footer').on('click', '#clear-completed', destroyCompleted.bind(App));
 			$('#todo-list')
