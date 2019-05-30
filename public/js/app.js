@@ -180,16 +180,16 @@ jQuery(function ($) {
 		}
   
     function bindEvents() {
+      
       function whatIsThis() {
         console.log(this);
       }
 			// $('#new-todo').on('keyup', create.bind(App));
       var  new_todo = document.getElementById('new-todo');
-      // new_todo.addEventListener('keyup', create.bind(App))  
-      new_todo.addEventListener('keyup', whatIsThis); 
-			$('#toggle-all').on('change', toggleAll.bind(App));
-			// $('#toggle-all').on('change', whatIsThis);
-
+      new_todo.addEventListener('keyup', create);  
+      
+      $('#toggle-all').on('change', toggleAll.bind(App));
+      var toggle_
       $('#footer').on('click', '#clear-completed', destroyCompleted.bind(App));
 			$('#todo-list')
 				.on('change', '.toggle', toggle.bind(App))
