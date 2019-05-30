@@ -108,7 +108,7 @@ jQuery(function ($) {
       App.filter = 'all';
       render();
     }
-    function getFilteredTodos() {
+    function getFilteredTodos() { 
 			if (App.filter === 'active') {
 				return getActiveTodos();
 			}
@@ -148,12 +148,12 @@ jQuery(function ($) {
 				$(e.target).data('abort', true).blur();
 			}
 		}
-    function getCompletedTodos() {
+    function getCompletedTodos() { //filter returns array of completed
 			return App.todos.filter(function (todo) {
 				return todo.completed;
 			});
 		}
-    function getActiveTodos() {
+    function getActiveTodos() {  // filter returns array of non-completed
 			return App.todos.filter(function (todo) {
 				return !todo.completed;
 			});
