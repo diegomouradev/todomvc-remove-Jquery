@@ -103,7 +103,7 @@ jQuery(function ($) {
       });
       render();
     }
-    function destroyCompleted() {
+    function destroyCompleted() { //sets todos to active, sets filter to all,and renders
       App.todos = getActiveTodos();
       App.filter = 'all';
       render();
