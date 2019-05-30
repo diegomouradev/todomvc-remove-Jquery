@@ -179,12 +179,17 @@ jQuery(function ($) {
 			store('todos-jquery', App.todos);
 		}
     function bindEvents() {
+      function whatIsThis() {
+        console.log(this);
+      }
 			// $('#new-todo').on('keyup', create.bind(App));
       var  new_todo = document.getElementById('new-todo');
         new_todo.addEventListener('keyup', create.bind(App));
       
-			$('#toggle-all').on('change', toggleAll.bind(App));
-			$('#footer').on('click', '#clear-completed', destroyCompleted.bind(App));
+			// $('#toggle-all').on('change', toggleAll.bind(App));
+			$('#toggle-all').on('change', whatIsThis);
+
+      $('#footer').on('click', '#clear-completed', destroyCompleted.bind(App));
 			$('#todo-list')
 				.on('change', '.toggle', toggle.bind(App))
 				.on('dblclick', 'label', edit.bind(App))
