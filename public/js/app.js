@@ -190,11 +190,14 @@ jQuery(function ($) {
     
       // $('#toggle-all').on('change', toggleAll.bind(App));
       var toggle_all = document.querySelector('#toggle-all');
-      console.log(toggle_all);
-      toggle_all.addEventListener('change', whatIsThis);
+      toggle_all.addEventListener('change', toggleAll);
       
-      $('#footer').on('click', '#clear-completed', destroyCompleted.bind(App));
-			$('#todo-list')
+      // $('#footer').on('click', '#clear-completed', destroyCompleted.bind(App));
+      var id_footer = document.querySelector('#footer');
+      // id_footer.addEventListener('click', whatIsThis);
+      var clear_completed = id_footer.querySelector('#clear-completed');
+      clear_completed.addEventListener('click', whatIsThis);
+      $('#todo-list')
 				.on('change', '.toggle', toggle.bind(App))
 				.on('dblclick', 'label', edit.bind(App))
 				.on('keyup', '.edit', editKeyup.bind(App))
