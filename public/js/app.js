@@ -105,8 +105,8 @@ jQuery(function ($) {
         if (!val) {
           destroy(e);
           return;
-       if ($el.data('abort')) {
-          $el.data('abort', false);
+       if (el.getAttribute('abort')) {
+          el.setAttribute('abort', false);
         } else {
           App.todos[indexFromEl(el)].title = val;
         }
@@ -162,7 +162,7 @@ jQuery(function ($) {
 				e.target.blur();
 			}
 			if (e.which === ESCAPE_KEY) {
-				$(e.target).data('abort', true).blur();
+				$(e.target).setAttribute('abort', true).blur();
 			}
 		}
     function getCompletedTodos() { //filter returns array of completed
