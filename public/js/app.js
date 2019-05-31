@@ -186,11 +186,12 @@ jQuery(function ($) {
       }
 			// $('#new-todo').on('keyup', create.bind(App));
       var  new_todo = document.getElementById('new-todo');
-      // new_todo.addEventListener('keyup', create);  
-      new_todo.addEventListener('keyup', whatIsThis);  
+      new_todo.addEventListener('keyup', create);  
     
-      $('#toggle-all').on('change', toggleAll.bind(App));
-      var toggle_all
+      // $('#toggle-all').on('change', toggleAll.bind(App));
+      var toggle_all = document.querySelector('#toggle-all');
+      console.log(toggle_all);
+      toggle_all.addEventListener('change', whatIsThis);
       
       $('#footer').on('click', '#clear-completed', destroyCompleted.bind(App));
 			$('#todo-list')
