@@ -204,8 +204,13 @@ jQuery(function ($) {
       var todo_list = document.querySelector('#todo-list');
       todo_list.addEventListener('change', function(e) {
         if (e.target.className === 'toggle') {
-           console.log(e.target.className);
-          toggle();
+          toggle(e);
+        }
+      });
+      
+      todo_list.addEventListener('dblclick', function(e) {
+        if (e.target === 'label') {
+          edit();
         }
       });
         
