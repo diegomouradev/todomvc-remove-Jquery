@@ -221,7 +221,9 @@ jQuery(function ($) {
       });
       
       todo_list.addEventListener('focusout', function(e) {
-        if (e.target.className )
+        if (e.target.className === 'edit') {
+          update(e)
+        }
       });
       
       $('#todo-list')
