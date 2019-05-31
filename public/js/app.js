@@ -194,9 +194,12 @@ jQuery(function ($) {
       
       // $('#footer').on('click', '#clear-completed', destroyCompleted.bind(App));
       var id_footer = document.querySelector('#footer');
-      // id_footer.addEventListener('click', whatIsThis);
-      var clear_completed = id_footer.querySelector('#clear-completed');
-      clear_completed.addEventListener('click', whatIsThis);
+      id_footer.addEventListener('click', function(e) {
+        if (e.target.id === 'clear-completed') {
+          destroyCompleted();
+        }
+      });
+      
       $('#todo-list')
 				.on('change', '.toggle', toggle.bind(App))
 				.on('dblclick', 'label', edit.bind(App))
