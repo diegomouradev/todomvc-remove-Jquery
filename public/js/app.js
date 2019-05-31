@@ -209,15 +209,25 @@ jQuery(function ($) {
       });
       
       todo_list.addEventListener('dblclick', function(e) {
-        if (e.target === 'label') {
-          edit();
+        if (e.target.nodeName === 'LABEL') {
+          edit(e);
         }
       });
-        
+      
+      todo_list.addEventListener('keyup', function(e) {
+        if (e.target.className === 'edit') {
+          editKeyup(e);
+        }
+      });
+      
+      todo_list.addEventListener('focusout', function(e) {
+        if (e.target.className )
+      });
+      
       $('#todo-list')
 				// .on('change', '.toggle', toggle.bind(App))
-				.on('dblclick', 'label', edit.bind(App))
-				.on('keyup', '.edit', editKeyup.bind(App))
+				// .on('dblclick', 'label', edit.bind(App))
+				// .on('keyup', '.edit', editKeyup.bind(App))
 				.on('focusout', '.edit', update.bind(App))
 				.on('click', '.destroy', destroy.bind(App));
 		}
