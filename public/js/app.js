@@ -162,7 +162,8 @@ jQuery(function ($) {
 				e.target.blur();
 			}
 			if (e.which === ESCAPE_KEY) {
-				$(e.target).setAttribute('abort', true).blur();
+         var tester = e.target;
+				tester.setAttribute('abort', true).blur();
 			}
 		}
     function getCompletedTodos() { //filter returns array of completed
