@@ -181,8 +181,8 @@ jQuery(function ($) {
   
     function bindEvents() {
       
-      function whatIsThis() {
-        console.log(this);
+      // function whatIsThis() {
+      //   console.log(this);
       }
 			// $('#new-todo').on('keyup', create.bind(App));
       var  new_todo = document.getElementById('new-todo');
@@ -200,7 +200,6 @@ jQuery(function ($) {
         }
       });
       
-      // $('#todo-list')
       var todo_list = document.querySelector('#todo-list');
       todo_list.addEventListener('change', function(e) {
         if (e.target.className === 'toggle') {
@@ -222,16 +221,22 @@ jQuery(function ($) {
       
       todo_list.addEventListener('focusout', function(e) {
         if (e.target.className === 'edit') {
-          update(e)
+          update(e);
         }
       });
       
-      $('#todo-list')
+      todo_list.addEventListener('click', function(e) {
+        if (e.target.className === 'destroy') {
+          destroy(e);
+        }
+      });
+      
+      // $('#todo-list')
 				// .on('change', '.toggle', toggle.bind(App))
 				// .on('dblclick', 'label', edit.bind(App))
 				// .on('keyup', '.edit', editKeyup.bind(App))
-				.on('focusout', '.edit', update.bind(App))
-				.on('click', '.destroy', destroy.bind(App));
+				// .on('focusout', '.edit', update.bind(App))
+				// .on('click', '.destroy', destroy.bind(App));
 		}
 		function init() {
 			App.todos = store('todos-jquery');
