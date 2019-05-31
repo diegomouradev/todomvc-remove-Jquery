@@ -98,9 +98,9 @@ jQuery(function ($) {
 //     }
     function update(e) {
         var el = e.target;
-        var $el = $(el);
-        var val = $el.val().trim();
-        // var val = el.value.trim();
+        // var $el = $(el);
+        // var val = $el.val().trim();
+        var val = el.value.trim();
 
         if (!val) {
           destroy(e);
