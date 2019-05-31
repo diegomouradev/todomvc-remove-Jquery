@@ -80,21 +80,37 @@ jQuery(function ($) {
 
          render();
     }
-    function update(e) {
-      var el = e.target;
-      var $el = $(el);
-      var val = $el.val().trim();
+//     function update(e) {
+//       var el = e.target;
+//       var $el = $(el);
+//       var val = $el.val().trim();
 
-      if (!val) {
-        destroy(e);
-        return;
-     if ($el.data('abort')) {
-        $el.data('abort', false);
-      } else {
-        App.todos[indexFromEl(el)].title = val;
-      }
-      }
-      render();
+//       if (!val) {
+//         destroy(e);
+//         return;
+//      if ($el.data('abort')) {
+//         $el.data('abort', false);
+//       } else {
+//         App.todos[indexFromEl(el)].title = val;
+//       }
+//       }
+//       render();
+//     }
+    function update(e) {
+        var el = e.target;
+        var $el = $(el);
+        var val = $el.val().trim();
+
+        if (!val) {
+          destroy(e);
+          return;
+       if ($el.data('abort')) {
+          $el.data('abort', false);
+        } else {
+          App.todos[indexFromEl(el)].title = val;
+        }
+        }
+        render();
     }
     function toggleAll(e) {
       var isChecked = $(e.target).prop('checked');
@@ -237,7 +253,7 @@ jQuery(function ($) {
 				// .on('keyup', '.edit', editKeyup.bind(App))
 				// .on('focusout', '.edit', update.bind(App))
 				// .on('click', '.destroy', destroy.bind(App));
-		}
+		
 		function init() {
 			App.todos = store('todos-jquery');
 			App.todoTemplate = Handlebars.compile($('#todo-template').html());
