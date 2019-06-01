@@ -158,11 +158,12 @@ jQuery(function ($) {
 			$input.val($input.val()).focus();
 		} 
     function editKeyup(e) {
-			if (e.which === ENTER_KEY) {
+      var tester = e.target;
+      if (e.which === ENTER_KEY) {
 				e.target.blur();
 			}
 			if (e.which === ESCAPE_KEY) {
-        var tester = e.target;
+        // var tester = e.target;
 			    tester.dataset.abort = true;
           tester.blur();
 			}
@@ -238,7 +239,7 @@ jQuery(function ($) {
         }
       });
       
-      todo_list.addEventListener('focusout', function(e) {
+      todo_list.addEventListener('focusout', function(e) {  //trying blur event instead of focusout
         if (e.target.className === 'edit') {
           update(e);
         }
