@@ -105,7 +105,7 @@ jQuery(function ($) {
         if (!val) {
           destroy(e);
           return;
-       if (el.getAttribute('abort')) {
+       if (el.dataset.abort('abort')) {
           el.setAttribute('abort', false);
         } else {
           App.todos[indexFromEl(el)].title = val;
@@ -163,7 +163,7 @@ jQuery(function ($) {
 			}
 			if (e.which === ESCAPE_KEY) {
         var tester = e.target;
-			    tester.setAttribute('abort', true);
+			    tester.setUserData('abort', true);
           tester.blur();
 			}
 		}
