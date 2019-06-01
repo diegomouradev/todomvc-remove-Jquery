@@ -105,7 +105,7 @@ jQuery(function ($) {
         if (!val) {
           destroy(e);
           return;
-       if (el.dataset.abort) {
+        if (el.dataset.abort) {
           el.dataset.abort = false;
         } else {
           App.todos[indexFromEl(el)].title = val;
