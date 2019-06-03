@@ -157,7 +157,8 @@ jQuery(function ($) {
 		}
     function edit(e) {
 			var $input = $(e.target).closest('li').addClass('editing').find('.edit');
-			$input.val($input.val()).focus();
+			// $input.val($input.val()).focus();
+      
 		} 
     function editKeyup(e) {
       var tester = e.target;
