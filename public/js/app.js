@@ -155,13 +155,17 @@ jQuery(function ($) {
 			App.todos[i].completed = !App.todos[i].completed;
 			render();
 		}
-    function edit(e) {
+    // function edit(e) {
 			// var $input = $(e.target).closest('li').addClass('editing').find('.edit');
-			var $input = e.target.closest('li');
-      $input.className += " editing";
-      $input = $input.querySelector('.edit');
-      // $input.val($input.val()).focus();
-      $input.focus();
+			// var $input = e.target.closest('li');
+			// $input.className += " editing";
+			// $input = $input.querySelector('.edit');
+			// $input.val($input.val()).focus();
+      // $input.focus();
+		// } 
+  function edit(e) {
+			var $input = $(e.target).closest('li').addClass('editing').find('.edit');
+			$input.val($input.val()).focus();
 		} 
     function editKeyup(e) {
       var tester = e.target;
