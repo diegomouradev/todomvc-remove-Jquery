@@ -135,9 +135,11 @@ jQuery(function ($) {
 			return App.todos;
 		}
     function create(e) {
-			var $input = $(e.target);
-			var val = $input.val().trim();
-			if (e.which !== ENTER_KEY || !val) {
+			// var $input = $(e.target);
+			// var val = $input.val().trim();
+			var $input = e.target;
+			var val = $input.value.trim();
+      if (e.which !== ENTER_KEY || !val) {
 				return;
 			}
 			App.todos.push({
@@ -145,7 +147,7 @@ jQuery(function ($) {
 				title: val,
 				completed: false
 			});
-			$input.val('');
+			$input.value = '';
 			render();
 		}
     function toggle(e) {
