@@ -156,9 +156,12 @@ jQuery(function ($) {
 			render();
 		}
     function edit(e) {
-			var $input = $(e.target).closest('li').addClass('editing').find('.edit');
-			// $input.val($input.val()).focus();
-      
+			// var $input = $(e.target).closest('li').addClass('editing').find('.edit');
+			var $input = e.target.closest('li');
+      $input.className += " editing";
+      $input = $input.querySelector('.edit');
+      // $input.val($input.val()).focus();
+      $input.focus();
 		} 
     function editKeyup(e) {
       var tester = e.target;
