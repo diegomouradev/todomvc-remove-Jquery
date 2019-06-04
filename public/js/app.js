@@ -161,7 +161,6 @@ jQuery(function ($) {
 			var $input = e.target.closest('li');
 			$input.className += " editing";
 			$input = $input.querySelector('.edit');
-			$input.focus();
       $input.focus();
 		} 
   
