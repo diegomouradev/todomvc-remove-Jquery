@@ -153,9 +153,9 @@ jQuery(function ($) {
 		}
     function toggle(e) {
       var i = indexFromEl(e.target);
-			App.todos[i].completed = !App.todos[i].completed;
-			render();
-		}
+      App.todos[i].completed = !App.todos[i].completed;
+      render();
+    }
     // function edit(e) {
 			// var $input = $(e.target).closest('li').addClass('editing').find('.edit');
 			// var $input = e.target.closest('li');
@@ -164,10 +164,26 @@ jQuery(function ($) {
 			// $input.val($input.val()).focus();
       // $input.focus();
 		// } 
-  function edit(e) {
-			var $input = $(e.target).closest('li').addClass('editing').find('.edit');
-			$input.val($input.val()).focus();
-		} 
+  
+    function edit(e) {
+        var $input = $(e.target).closest('li').addClass('editing').find('.edit');
+        $input.val($input.val()).focus();
+    } 
+    function editKeyup(e) {
+      var tester = e.target;
+      if (e.which === ENTER_KEY) {
+        e.target.blur();
+      }
+      if (e.which === ESCAPE_KEY) {
+        // var tester = e.target;
+          tester.dataset.abort = true;
+          tester.blur();
+      }
+    }
+    function edit(e) {
+        var $input = $(e.target).closest('li').addClass('editing').find('.edit');
+        $input.val($input.val()).focus();
+    } 
     function editKeyup(e) {
       var tester = e.target;
       if (e.which === ENTER_KEY) {
@@ -260,7 +276,7 @@ jQuery(function ($) {
         if (e.target.className === 'destroy') {
           destroy(e);
         }
-      });
+    });
       
       // $('#todo-list')
 				// .on('change', '.toggle', toggle.bind(App))
@@ -274,7 +290,7 @@ jQuery(function ($) {
 			App.todoTemplate = Handlebars.compile($('#todo-template').html());
 			App.footerTemplate = Handlebars.compile($('#footer-template').html());
 			bindEvents();
-		new Router({
+		  new Router({
 				'/:filter': function (filter) {
 					App.filter = filter;
 					render();
