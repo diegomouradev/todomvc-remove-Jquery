@@ -114,12 +114,19 @@ jQuery(function ($) {
         }
         render();
     }
+    // function toggleAll(e) {
+    //   var isChecked = $(e.target).prop('checked');
+    //   App.todos.forEach(function (todo) {
+    //     todo.completed = isChecked;
+    //   });
+    //   render();
+    // }
     function toggleAll(e) {
-      var isChecked = $(e.target).prop('checked');
-      App.todos.forEach(function (todo) {
-        todo.completed = isChecked;
-      });
-      render();
+        var isChecked = e.target.checked;
+        App.todos.forEach(function (todo) {
+          todo.completed = isChecked;
+        });
+        render();
     }
     function destroyCompleted() { //sets todos to active, sets filter to all,and renders
       App.todos = getActiveTodos();
