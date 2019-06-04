@@ -157,11 +157,11 @@ jQuery(function ($) {
       render();
     }
     function edit(e) {
-			var $input = $(e.target).closest('li').addClass('editing').find('.edit');
+			// var $input = $(e.target).closest('li').addClass('editing').find('.edit');
 			var $input = e.target.closest('li');
 			$input.className += " editing";
 			$input = $input.querySelector('.edit');
-			$input.val($input.val()).focus();
+			$input.focus();
       $input.focus();
 		} 
   
@@ -180,21 +180,6 @@ jQuery(function ($) {
           tester.blur();
       }
     }
-    function edit(e) {
-        var $input = $(e.target).closest('li').addClass('editing').find('.edit');
-        $input.val($input.val()).focus();
-    } 
-    function editKeyup(e) {
-      var tester = e.target;
-      if (e.which === ENTER_KEY) {
-				e.target.blur();
-			}
-			if (e.which === ESCAPE_KEY) {
-        // var tester = e.target;
-			    tester.dataset.abort = true;
-          tester.blur();
-			}
-		}
     function getCompletedTodos() { //filter returns array of completed
 			return App.todos.filter(function (todo) {
 				return todo.completed;
