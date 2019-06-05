@@ -276,18 +276,32 @@ jQuery(function ($) {
 				// .on('focusout', '.edit', update.bind(App))
 				// .on('click', '.destroy', destroy.bind(App));
 		
-		function init() {
-			App.todos = store('todos-jquery');
-			App.todoTemplate = Handlebars.compile($('#todo-template').html());
-			App.footerTemplate = Handlebars.compile($('#footer-template').html());
-			bindEvents();
-		  new Router({
-				'/:filter': function (filter) {
-					App.filter = filter;
-					render();
-				}.bind(App)
-			}).init('/all');      
-		} 
+		// function init() {
+		// 	App.todos = store('todos-jquery');
+		// 	App.todoTemplate = Handlebars.compile($('#todo-template').html());
+		// 	App.footerTemplate = Handlebars.compile($('#footer-template').html());
+		// 	bindEvents();
+		//   new Router({
+		// 		'/:filter': function (filter) {
+		// 			App.filter = filter;
+		// 			render();
+		// 		}.bind(App)
+		// 	}).init('/all');      
+		// } 
+      function init() {
+        App.todos = store('todos-jquery');
+        var todo_template = document.getElementById('todo-template').innerHTML;
+        var footer_template = document.getElementById('footer-template').innerHTML;
+        App.todoTemplate = Handlebars.compile(todo_template);
+        App.footerTemplate = Handlebars.compile(footer_template);
+        bindEvents();
+        new Router({
+          '/:filter': function (filter) {
+            App.filter = filter;
+            render();
+          }.bind(App)
+        }).init('/all');      
+      } 
 	 var App = {};
 	 init();
 });
