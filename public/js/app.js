@@ -205,6 +205,10 @@ jQuery(function ($) {
 				completedTodos: todoCount - activeTodoCount,
 				filter: App.filter
 			});
+      var footer_id = document.querySelector('#footer');
+      
+      var disp = (todoCount) ? 'block' : 'none';
+      footer_id.style.display = disp;
       // var footer_id = document.querySelector('#footer');
       // if (todoCount > 0) {
       //   footer_id.display = 'block';
