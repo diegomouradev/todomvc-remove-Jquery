@@ -207,18 +207,24 @@ jQuery(function ($) {
 			});
       var footer_id = document.querySelector('#footer');
       
-      var disp = (todoCount) ? 'block' : 'none';
-      footer_id.style.display = disp;
-      // var footer_id = document.querySelector('#footer');
-      // if (todoCount > 0) {
-      //   footer_id.display = 'block';
-      // } else {footer_id.display = 'none';
-      //       footer_id.innerHTML = template;
-      //      }
-        $('#footer').toggle(todoCount > 0).html(template);
+//       var disp = (todoCount > 0) ? 'block' : 'none';
+//       footer_id.style.display = disp;
+//       footer_id.innerHTML = template;
+      var footer_id = document.querySelector('#footer');
+      if (todoCount > 0) {
+        footer_id.style.display = 'block';
+      } else {footer_id.style.display = 'none';
+            footer_id.innerHTML = template;
+           }
+        // $('#footer').toggle(todoCount > 0).html(template);
 		}
     function render() {
 			var todos = getFilteredTodos();
+      var todo_list_id = document.querySelector('#todo-list');
+      var main_id = document.querySelector('#main');
+      var toggle_all_id = document.querySelector('#toggle-all');
+      var new_todo_id = document.querySelector('#new-todo');
+      // todo_list_id.innerHTML = App.todotemplate
 			$('#todo-list').html(App.todoTemplate(todos));
 			$('#main').toggle(todos.length > 0);
 			$('#toggle-all').prop('checked', getActiveTodos().length === 0);
