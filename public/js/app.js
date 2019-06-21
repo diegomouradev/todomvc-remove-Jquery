@@ -3,7 +3,7 @@
 //
 /* use this event listener to run functions when DOM is ready */
 
-// document.addEventListener("DOMContentLoaded", function(event) { 
+document.addEventListener("DOMContentLoaded", function(event) { 
 //   var App = {};
 // });
 
@@ -14,8 +14,8 @@
 
 
 /*global jQuery, Handlebars, Router */
-jQuery(function ($) {
-	'use strict';
+// jQuery(function ($) {
+// 	'use strict';
 
 	Handlebars.registerHelper('eq', function (a, b, options) {
 		return a === b ? options.fn(this) : options.inverse(this);
@@ -235,9 +235,10 @@ jQuery(function ($) {
       }
 			// $('#main').toggle(todos.length > 0);
       toggle_all_id.checked = (getActiveTodos().length === 0);
-			$('#toggle-all').prop('checked', getActiveTodos().length === 0);
+			// $('#toggle-all').prop('checked', getActiveTodos().length === 0);
 			renderFooter();
-			$('#new-todo').focus();
+      new_todo_id.focus();
+			// $('#new-todo').focus();
 			store('todos-jquery', App.todos);
 		}
   
