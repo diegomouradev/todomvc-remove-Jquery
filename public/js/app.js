@@ -205,7 +205,12 @@ jQuery(function ($) {
 				completedTodos: todoCount - activeTodoCount,
 				filter: App.filter
 			});
-			$('#footer').toggle(todoCount > 0).html(template);
+      var footer_id = document.querySelector('#footer');
+      if (todoCount > 0)
+        footer_id.display = 'block';
+      else footer_id.display = 'none';
+			
+        // $('#footer').toggle(todoCount > 0).html(template);
 		}
     function render() {
 			var todos = getFilteredTodos();
