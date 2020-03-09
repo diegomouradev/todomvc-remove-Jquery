@@ -5,8 +5,8 @@ jQuery(function ($) {
 	Handlebars.registerHelper('eq', function (a, b, options) {
 		return a === b ? options.fn(this) : options.inverse(this);
 	});
-//test test test test
-	var ENTER_KEY = 13; 
+
+	var ENTER_KEY = 13;
 	var ESCAPE_KEY = 27;
 
 	var util = {
@@ -38,13 +38,6 @@ jQuery(function ($) {
 		}
 	};
 
-  
-  
-  
-  
-  
-  
-  
 	var App = {
 		init: function () {
 			this.todos = util.store('todos-jquery');
