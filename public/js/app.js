@@ -201,11 +201,17 @@ jQuery(function($) {
 
       this.render();
     },
-    destroy: function(e) {
-      this.todos.splice(this.indexFromEl(e.target), 1);
+    destroy: function(event) {
+      this.todos.splice(this.indexFromEl(event.target), 1);
       this.render();
     }
   };
+  
+  var handlers = {
+    destroy: function() {
+      var destroy = document.getElementByID
+    }
+  }
 
   App.init();
 });
