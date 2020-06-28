@@ -67,7 +67,9 @@ jQuery(function($) {
         .on("dblclick", "label", this.edit.bind(this))
         .on("keyup", ".edit", this.editKeyup.bind(this))
         .on("focusout", ".edit", this.update.bind(this))
-        .on("click", ".destroy", this.destroy.bind(this));
+        // .on("click", ".destroy", this.destroy.bind(this));
+      var todoList = document.getElementById('todo-list');
+      todoList.addEventListener
     },
     render: function() {
       var todos = this.getFilteredTodos();
@@ -207,11 +209,6 @@ jQuery(function($) {
     }
   };
   
-  var handlers = {
-    destroy: function() {
-      var destroy = document.getElementByID
-    }
-  }
 
   App.init();
 });
