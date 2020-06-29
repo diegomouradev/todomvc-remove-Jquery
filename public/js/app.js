@@ -57,11 +57,11 @@ jQuery(function($) {
     },
     bindEvents: function() {
       // $("#new-todo").on("keyup", this.create.bind(this));
-      var newTodo = document.getElementById('new-todo');
-      newtodo.addEventListener('keyup', function(event){
+      var newTodo = document.getElementById("new-todo");
+      newTodo.addEventListener("keyup", function(event) {
         var newTodoInput = event.target;
-        if (newTodoInput.className === 'new-todo')
-      })
+        if (newTodoInput.className === "new-todo") App.create(newTodoInput);
+      });
       $("#toggle-all").on("change", this.toggleAll.bind(this));
       $("#footer").on(
         "click",
@@ -156,8 +156,8 @@ jQuery(function($) {
       }
     },
     create: function(e) {
-      var $input = $(e.target);
-      var val = $input.val().trim();
+      var input = e
+      var val = input.val().trim();
 
       if (e.which !== ENTER_KEY || !val) {
         return;
@@ -169,7 +169,7 @@ jQuery(function($) {
         completed: false
       });
 
-      $input.val("");
+      input.val("");
 
       this.render();
     },
