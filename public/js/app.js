@@ -56,12 +56,12 @@ jQuery(function($) {
       }).init("/all");
     },
     bindEvents: function() {
-      // $("#new-todo").on("keyup", this.create.bind(this));
-      var newTodo = document.getElementById("new-todo");
-      newTodo.addEventListener("keyup", function(event) {
-        var newTodoInput = event.target;
-        if (newTodoInput.className === "new-todo") App.create(newTodoInput);
-      });
+      $("#new-todo").on("keyup", this.create.bind(this));
+      // var newTodo = document.getElementById("new-todo");
+      // newTodo.addEventListener("keyup", function(event) {
+      //   var newTodoInput = event.target;
+      //   if (newTodoInput.className === "new-todo") App.create(newTodoInput);
+      // });
       $("#toggle-all").on("change", this.toggleAll.bind(this));
       $("#footer").on(
         "click",
@@ -143,9 +143,7 @@ jQuery(function($) {
     // accepts an element from inside the `.item` div and
     // returns the corresponding index in the `todos` array
     indexFromEl: function(el) {
-      var id = $(el)
-        .closest("li")
-        .data("id");
+      var id = el.parentNode.data("id");
       var todos = this.todos;
       var i = todos.length;
 
@@ -156,8 +154,8 @@ jQuery(function($) {
       }
     },
     create: function(e) {
-      var input = e
-      var val = input.val().trim();
+      var $input = $(e.target);
+      var val = $input.val().trim();
 
       if (e.which !== ENTER_KEY || !val) {
         return;
@@ -169,7 +167,7 @@ jQuery(function($) {
         completed: false
       });
 
-      input.val("");
+      $input.val("");
 
       this.render();
     },
@@ -214,7 +212,7 @@ jQuery(function($) {
 
       this.render();
     },
-    destroy: function(elementClicked) {
+    destroy: function(el) {
       this.todos.splice(this.indexFromEl(event.target), 1);
       this.render();
     }
