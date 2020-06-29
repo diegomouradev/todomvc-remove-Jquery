@@ -72,7 +72,7 @@ jQuery(function($) {
       todoList.addEventListener("click", function(event) {
         var elementClicked = event.target;
         if (elementClicked.className === "destroy") {
-          App.destroy(elementClicked);
+          App.destroy();
         }
       });
     },
@@ -136,9 +136,10 @@ jQuery(function($) {
     },
     // accepts an element from inside the `.item` div and
     // returns the corresponding index in the `todos` array
-    indexFromEl: function(elementClicked) {
-      var parentNode = elementClicked.parentNode;
-      var id = parentNode.parentNode.id;
+    indexFromEl: function(el) {
+      var id = $(el)
+        .closest("li")
+        .data("id");
       var todos = this.todos;
       var i = todos.length;
 
@@ -208,7 +209,7 @@ jQuery(function($) {
       this.render();
     },
     destroy: function(elementClicked) {
-      this.todos.splice(this.indexFromEl(elementClicked), 1);
+      this.todos.splice(this.indexFromEl(event.target), 1);
       this.render();
     }
   };
