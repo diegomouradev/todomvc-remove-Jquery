@@ -66,15 +66,15 @@ jQuery(function($) {
         .on("change", ".toggle", this.toggle.bind(this))
         .on("dblclick", "label", this.edit.bind(this))
         .on("keyup", ".edit", this.editKeyup.bind(this))
-        .on("focusout", ".edit", this.update.bind(this))
-        .on("click", ".destroy", this.destroy.bind(this));
-      // var todoList = document.getElementById("todo-list");
-      // todoList.addEventListener("click", function(event) {
-      //   var elementClicked = event.target;
-      //   if (elementClicked.className === "destroy") {
-      //     App.destroy();
-      //   }
-      // });
+        .on("focusout", ".edit", this.update.bind(this));
+      // .on("click", ".destroy", this.destroy.bind(this));
+      var todoList = document.getElementById("todo-list");
+      todoList.addEventListener("click", function(event) {
+        var elementClicked = event.target;
+        if (elementClicked.className === "destroy") {
+          App.destroy(elementClicked);
+        }
+      });
     },
     render: function() {
       var todos = this.getFilteredTodos();
@@ -208,7 +208,7 @@ jQuery(function($) {
 
       this.render();
     },
-    destroy: function(e) {
+    destroy: function(elementClicked) {
       this.todos.splice(this.indexFromEl(event.target), 1);
       this.render();
     }
