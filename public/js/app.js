@@ -137,7 +137,8 @@ jQuery(function($) {
     // accepts an element from inside the `.item` div and
     // returns the corresponding index in the `todos` array
     indexFromEl: function(elementClicked) {
-      var id = elementClicked.parentNode.id;
+      var parentNode = elementClicked.parentNode;
+      var id = parentNode.parentNode.id;
       var todos = this.todos;
       var i = todos.length;
 
