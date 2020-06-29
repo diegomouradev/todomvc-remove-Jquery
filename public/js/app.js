@@ -208,7 +208,7 @@ jQuery(function($) {
 
       this.render();
     },
-    destroy: function(elementClicked) {
+    destroy: function(e) {
       this.todos.splice(this.indexFromEl(event.target), 1);
       this.render();
     }
