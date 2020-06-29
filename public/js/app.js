@@ -56,7 +56,12 @@ jQuery(function($) {
       }).init("/all");
     },
     bindEvents: function() {
-      $("#new-todo").on("keyup", this.create.bind(this));
+      // $("#new-todo").on("keyup", this.create.bind(this));
+      var newTodo = document.getElementById('new-todo');
+      newtodo.addEventListener('keyup', function(event){
+        var newTodoInput = event.target;
+        if (newTodoInput.className === 'new-todo')
+      })
       $("#toggle-all").on("change", this.toggleAll.bind(this));
       $("#footer").on(
         "click",
