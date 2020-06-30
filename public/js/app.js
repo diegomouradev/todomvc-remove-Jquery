@@ -40,6 +40,8 @@ jQuery(function($) {
       }
     }
   };
+  
+  var inputNewTodo; //assigned on bindEvents
 
   var App = {
     init: function() {
@@ -56,12 +58,10 @@ jQuery(function($) {
       }).init("/all");
     },
     bindEvents: function() {
-      $("#new-todo").on("keyup", this.create.bind(this));
-      // var newTodo = document.getElementById("new-todo");
-      // newTodo.addEventListener("keyup", function(event) {
-      //   var newTodoInput = event.target;
-      //   if (newTodoInput.className === "new-todo") App.create(newTodoInput);
-      // });
+      //declared outside of the object.
+      inputNewTodo = document.getElementById('new-todo');
+      inputNewTodo.addEventListener('keyup', this.create.bind(this));
+      // $("#new-todo").on("keyup", this.create.bind(this));
       $("#toggle-all").on("change", this.toggleAll.bind(this));
       $("#footer").on(
         "click",
@@ -72,15 +72,8 @@ jQuery(function($) {
         .on("change", ".toggle", this.toggle.bind(this))
         .on("dblclick", "label", this.edit.bind(this))
         .on("keyup", ".edit", this.editKeyup.bind(this))
-        .on("focusout", ".edit", this.update.bind(this));
-      // .on("click", ".destroy", this.destroy.bind(this));
-      var todoList = document.getElementById("todo-list");
-      todoList.addEventListener("click", function(event) {
-        var elementClicked = event.target;
-        if (elementClicked.className === "destroy") {
-          App.destroy(elementClicked);
-        }
-      });
+        .on("focusout", ".edit", this.update.bind(this))
+        .on("click", ".destroy", this.destroy.bind(this));
     },
     render: function() {
       var todos = this.getFilteredTodos();
@@ -141,23 +134,23 @@ jQuery(function($) {
       this.render();
     },
     // accepts an element from inside the `.item` div and
-    // returns the corresponding index in the `todos` array
-    indexFromEl: function(el) {
-      var id = el.parentNode.data("id");
-      var todos = this.todos;
-      var i = todos.length;
+		// returns the corresponding index in the `todos` array
+		indexFromEl: function (el) {
+			var id = $(el).closest('li').data('id');
+			var todos = this.todos;
+			var i = todos.length;
 
-      while (i--) {
-        if (todos[i].id === id) {
-          return i;
-        }
-      }
-    },
-    create: function(e) {
-      var $input = $(e.target);
-      var val = $input.val().trim();
+			while (i--) {
+				if (todos[i].id === id) {
+					return i;
+				}
+			}
+		},
+    create: function(event) {
+      var input = event.target;
+      var val = input.value;
 
-      if (e.which !== ENTER_KEY || !val) {
+      if (event.which !== ENTER_KEY || !val) {
         return;
       }
 
@@ -167,7 +160,7 @@ jQuery(function($) {
         completed: false
       });
 
-      $input.val("");
+      inputNewTodo.value = "";
 
       this.render();
     },
@@ -212,8 +205,8 @@ jQuery(function($) {
 
       this.render();
     },
-    destroy: function(el) {
-      this.todos.splice(this.indexFromEl(event.target), 1);
+    destroy: function(e) {
+      this.todos.splice(this.indexFromEl(e.target), 1);
       this.render();
     }
   };
