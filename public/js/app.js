@@ -41,7 +41,10 @@ jQuery(function($) {
     }
   };
   
-  var inputNewTodo; //assigned on bindEvents
+  var newTodo; //assigned on bindEvent
+  var toggleAll; //assigned on bindEvents
+  var clearCompleted; //assigned on bindEvents
+  const todoList = document.getElementById('todo-list');
 
   var App = {
     init: function() {
@@ -57,24 +60,53 @@ jQuery(function($) {
         }.bind(this)
       }).init("/all");
     },
+
     bindEvents: function() {
-      //declared outside of the object.
-      inputNewTodo = document.getElementById('new-todo');
-      inputNewTodo.addEventListener('keyup', this.create.bind(this));
-      // $("#new-todo").on("keyup", this.create.bind(this));
-      $("#toggle-all").on("change", this.toggleAll.bind(this));
-      $("#footer").on(
-        "click",
-        "#clear-completed",
-        this.destroyCompleted.bind(this)
-      );
+      // JQUERY REMOVED --**-- JQUERY REMOVED --**-- JQUERY REMOVED --**-- JQUERY REMOVED --**-- JQUERY REMOVED --**-- JQUERY REMOVED --**-- JQUERY REMOVED
+      // var declared outside of the object.
+      newTodo = document.getElementById('new-todo');
+      newTodo.addEventListener('keyup', this.create.bind(this));
+
+      // JQUERY REMOVED --**-- JQUERY REMOVED --**-- JQUERY REMOVED --**-- JQUERY REMOVED --**-- JQUERY REMOVED --**-- JQUERY REMOVED --**-- JQUERY REMOVED
+      // var declared outside of the object.
+      toggleAll = document.getElementById('toggle-all');
+      toggleAll.addEventListener('change', this.toggleAll.bind(this));
+
+      // JQUERY REMOVED --**-- JQUERY REMOVED --**-- JQUERY REMOVED --**-- JQUERY REMOVED --**-- JQUERY REMOVED --**-- JQUERY REMOVED --**-- JQUERY REMOVED
+      clearCompleted = document.getElementById('footer');
+      clearCompleted.addEventListener('click', this.destroyCompleted.bind(this));
+
+
+      //const todoList declared outside of the object for global scope.
+
+      // JQUERY REMOVED --**-- JQUERY REMOVED --**-- JQUERY REMOVED --**-- JQUERY REMOVED --**-- JQUERY REMOVED --**-- JQUERY REMOVED --**-- JQUERY REMOVED    
+      todoList.addEventListener('change', function() {
+        var elementClicked = event.target;
+        if (elementClicked.className === 'toggle')
+          App.toggle(event);
+      });
+
+      // JQUERY REMOVED --**-- JQUERY REMOVED --**-- JQUERY REMOVED --**-- JQUERY REMOVED --**-- JQUERY REMOVED --**-- JQUERY REMOVED --**-- JQUERY REMOVED
+      todoList.addEventListener('click', function() {
+        var elementClicked = event.target;
+        var numberOfClicks = event.detail;
+        if (elementClicked.className === 'destroy' && numberOfClicks === 1 )
+          App.destroy(event);
+      });
+
+      todoList.addEventListener('dblclick', function(){
+        var elementClicked = event.target;
+        var numberOfClicks = event.detail;
+        if (elementClicked.tagName === 'LABEL' && numberOfClicks === 2 )
+          App.edit(event);
+      });
+
       $("#todo-list")
-        .on("change", ".toggle", this.toggle.bind(this))
-        .on("dblclick", "label", this.edit.bind(this))
         .on("keyup", ".edit", this.editKeyup.bind(this))
-        .on("focusout", ".edit", this.update.bind(this))
-        .on("click", ".destroy", this.destroy.bind(this));
+        .on("focusout", ".edit", this.update.bind(this));
     },
+
+
     render: function() {
       var todos = this.getFilteredTodos();
       $("#todo-list").html(this.todoTemplate(todos));
@@ -84,6 +116,8 @@ jQuery(function($) {
       $("#new-todo").focus();
       util.store("todos-jquery", this.todos);
     },
+
+
     renderFooter: function() {
       var todoCount = this.todos.length;
       var activeTodoCount = this.getActiveTodos().length;
@@ -98,6 +132,8 @@ jQuery(function($) {
         .toggle(todoCount > 0)
         .html(template);
     },
+
+
     toggleAll: function(e) {
       var isChecked = $(e.target).prop("checked");
 
@@ -107,6 +143,8 @@ jQuery(function($) {
 
       this.render();
     },
+
+
     getActiveTodos: function() {
       return this.todos.filter(function(todo) {
         return !todo.completed;
@@ -117,6 +155,8 @@ jQuery(function($) {
         return todo.completed;
       });
     },
+
+
     getFilteredTodos: function() {
       if (this.filter === "active") {
         return this.getActiveTodos();
@@ -128,15 +168,19 @@ jQuery(function($) {
 
       return this.todos;
     },
+
+
     destroyCompleted: function() {
       this.todos = this.getActiveTodos();
       this.filter = "all";
       this.render();
     },
+
+    // JQUERY REMOVED --**-- JQUERY REMOVED --**-- JQUERY REMOVED --**-- JQUERY REMOVED --**-- JQUERY REMOVED --**-- JQUERY REMOVED --**-- JQUERY REMOVED
     // accepts an element from inside the `.item` div and
 		// returns the corresponding index in the `todos` array
-		indexFromEl: function (el) {
-			var id = $(el).closest('li').data('id');
+		indexFromEl: function(elementClicked) {
+			var id = elementClicked.parentNode.parentNode.dataset.id;
 			var todos = this.todos;
 			var i = todos.length;
 
@@ -145,7 +189,10 @@ jQuery(function($) {
 					return i;
 				}
 			}
-		},
+    },
+
+
+    // JQUERY REMOVED --**-- JQUERY REMOVED --**-- JQUERY REMOVED --**-- JQUERY REMOVED --**-- JQUERY REMOVED --**-- JQUERY REMOVED --**-- JQUERY REMOVED
     create: function(event) {
       var input = event.target;
       var val = input.value;
@@ -160,22 +207,24 @@ jQuery(function($) {
         completed: false
       });
 
-      inputNewTodo.value = "";
+      newTodo.value = "";
 
       this.render();
     },
-    toggle: function(e) {
-      var i = this.indexFromEl(e.target);
+
+
+    // JQUERY REMOVED --**-- JQUERY REMOVED --**-- JQUERY REMOVED --**-- JQUERY REMOVED --**-- JQUERY REMOVED --**-- JQUERY REMOVED --**-- JQUERY REMOVED
+    toggle: function(event) {
+      var i = this.indexFromEl(event.target);
       this.todos[i].completed = !this.todos[i].completed;
       this.render();
     },
-    edit: function(e) {
-      var $input = $(e.target)
-        .closest("li")
-        .addClass("editing")
-        .find(".edit");
-      $input.val($input.val()).focus();
-    },
+
+
+    edit: function(event) {
+			var $input = $(event.target).closest('li').addClass('editing').find('.edit');
+			$input.val($input.val()).focus();
+		},
     editKeyup: function(e) {
       if (e.which === ENTER_KEY) {
         e.target.blur();
@@ -193,20 +242,21 @@ jQuery(function($) {
       var val = $el.val().trim();
 
       if (!val) {
-        this.destroy(e);
+        this.destroy(event);
         return;
       }
 
       if ($el.data("abort")) {
         $el.data("abort", false);
       } else {
-        this.todos[this.indexFromEl(el)].title = val;
+        this.todos[this.indexFromEl(event.target)].title = val;
       }
 
       this.render();
     },
-    destroy: function(e) {
-      this.todos.splice(this.indexFromEl(e.target), 1);
+    // JQUERY REMOVED --**-- JQUERY REMOVED --**-- JQUERY REMOVED --**-- JQUERY REMOVED --**-- JQUERY REMOVED --**-- JQUERY REMOVED --**-- JQUERY REMOVED
+    destroy: function(event) {
+      this.todos.splice(this.indexFromEl(event.target), 1);
       this.render();
     }
   };
