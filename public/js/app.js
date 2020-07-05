@@ -48,7 +48,7 @@ jQuery(function($) {
 
   var App = {
     init: function() {
-      this.todos = util.store("todos-jquery");
+      this.todos = util.store("todos-nojquery");
       this.todoTemplate = Handlebars.compile($("#todo-template").html());
       this.footerTemplate = Handlebars.compile($("#footer-template").html());
       this.bindEvents();
@@ -66,17 +66,13 @@ jQuery(function($) {
       // var declared outside of the object.
       newTodo = document.getElementById('new-todo');
       newTodo.addEventListener('keyup', this.create.bind(this));
-
       // JQUERY REMOVED --**-- JQUERY REMOVED --**-- JQUERY REMOVED --**-- JQUERY REMOVED --**-- JQUERY REMOVED --**-- JQUERY REMOVED --**-- JQUERY REMOVED
       // var declared outside of the object.
       toggleAll = document.getElementById('toggle-all');
       toggleAll.addEventListener('change', this.toggleAll.bind(this));
-
       // JQUERY REMOVED --**-- JQUERY REMOVED --**-- JQUERY REMOVED --**-- JQUERY REMOVED --**-- JQUERY REMOVED --**-- JQUERY REMOVED --**-- JQUERY REMOVED
       clearCompleted = document.getElementById('footer');
       clearCompleted.addEventListener('click', this.destroyCompleted.bind(this));
-
-
       //const todoList declared outside of the object for global scope.
 
       // JQUERY REMOVED --**-- JQUERY REMOVED --**-- JQUERY REMOVED --**-- JQUERY REMOVED --**-- JQUERY REMOVED --**-- JQUERY REMOVED --**-- JQUERY REMOVED    
@@ -85,7 +81,6 @@ jQuery(function($) {
         if (elementClicked.className === 'toggle')
           App.toggle(event);
       });
-
       // JQUERY REMOVED --**-- JQUERY REMOVED --**-- JQUERY REMOVED --**-- JQUERY REMOVED --**-- JQUERY REMOVED --**-- JQUERY REMOVED --**-- JQUERY REMOVED
       todoList.addEventListener('click', function() {
         var elementClicked = event.target;
@@ -93,17 +88,18 @@ jQuery(function($) {
         if (elementClicked.className === 'destroy' && numberOfClicks === 1 )
           App.destroy(event);
       });
-
+      // JQUERY REMOVED --**-- JQUERY REMOVED --**-- JQUERY REMOVED --**-- JQUERY REMOVED --**-- JQUERY REMOVED --**-- JQUERY REMOVED --**-- JQUERY REMOVED
       todoList.addEventListener('dblclick', function(){
         var elementClicked = event.target;
         var numberOfClicks = event.detail;
         if (elementClicked.tagName === 'LABEL' && numberOfClicks === 2 )
           App.edit(event);
       });
+      // JQUERY REMOVED --**-- JQUERY REMOVED --**-- JQUERY REMOVED --**-- JQUERY REMOVED --**-- JQUERY REMOVED --**-- JQUERY REMOVED --**-- JQUERY REMOVED
+      todoList.addEventListener('keyup', this.editKeyup.bind(this));
+      // JQUERY REMOVED --**-- JQUERY REMOVED --**-- JQUERY REMOVED --**-- JQUERY REMOVED --**-- JQUERY REMOVED --**-- JQUERY REMOVED --**-- JQUERY REMOVED
+      todoList.addEventListener('focusout', this.update.bind(this));
 
-      $("#todo-list")
-        .on("keyup", ".edit", this.editKeyup.bind(this))
-        .on("focusout", ".edit", this.update.bind(this));
     },
 
 
@@ -133,9 +129,9 @@ jQuery(function($) {
         .html(template);
     },
 
-
-    toggleAll: function(e) {
-      var isChecked = $(e.target).prop("checked");
+    // JQUERY REMOVED --**-- JQUERY REMOVED --**-- JQUERY REMOVED --**-- JQUERY REMOVED --**-- JQUERY REMOVED --**-- JQUERY REMOVED --**-- JQUERY REMOVED
+    toggleAll: function(event) {
+      var isChecked = event.target.hasOwnProperty("checked");
 
       this.todos.forEach(function(todo) {
         todo.completed = isChecked;
@@ -180,7 +176,7 @@ jQuery(function($) {
     // accepts an element from inside the `.item` div and
 		// returns the corresponding index in the `todos` array
 		indexFromEl: function(elementClicked) {
-			var id = elementClicked.parentNode.parentNode.dataset.id;
+			var id = elementClicked.closest('li').dataset.id;
 			var todos = this.todos;
 			var i = todos.length;
 
@@ -220,40 +216,48 @@ jQuery(function($) {
       this.render();
     },
 
-
+    // JQUERY REMOVED --**-- JQUERY REMOVED --**-- JQUERY REMOVED --**-- JQUERY REMOVED --**-- JQUERY REMOVED --**-- JQUERY REMOVED --**-- JQUERY REMOVED
     edit: function(event) {
-			var $input = $(event.target).closest('li').addClass('editing').find('.edit');
-			$input.val($input.val()).focus();
-		},
-    editKeyup: function(e) {
-      if (e.which === ENTER_KEY) {
-        e.target.blur();
+      var todoLi = event.target.closest('li');
+      todoLi.classList.add('editing');
+      var input = todoLi.querySelector('.edit');//.classList.add('editing');
+      // var input = document.getElementsByClassName('edit');
+			input.focus();
+    },
+    
+    // JQUERY REMOVED --**-- JQUERY REMOVED --**-- JQUERY REMOVED --**-- JQUERY REMOVED --**-- JQUERY REMOVED --**-- JQUERY REMOVED --**-- JQUERY REMOVED
+    editKeyup: function(event) {
+      if (event.which === ENTER_KEY) {
+        event.target.blur();
       }
 
-      if (e.which === ESCAPE_KEY) {
-        $(e.target)
-          .data("abort", true)
-          .blur();
+      if (event.which === ESCAPE_KEY) {
+        var setEventAttribute = event.target;
+        setEventAttribute.setAttribute("abort", true);
+        setEventAttribute.blur();
       }
     },
-    update: function(e) {
-      var el = e.target;
-      var $el = $(el);
-      var val = $el.val().trim();
+
+    // JQUERY REMOVED --**-- JQUERY REMOVED --**-- JQUERY REMOVED --**-- JQUERY REMOVED --**-- JQUERY REMOVED --**-- JQUERY REMOVED --**-- JQUERY REMOVED
+    update: function(event) {
+      var el = event.target;
+      var val = el.value.trim();
 
       if (!val) {
         this.destroy(event);
         return;
       }
 
-      if ($el.data("abort")) {
-        $el.data("abort", false);
+      if (el.getAttribute("abort") === true) {
+        el.setAttribute("abort", false);
       } else {
         this.todos[this.indexFromEl(event.target)].title = val;
       }
 
       this.render();
     },
+
+
     // JQUERY REMOVED --**-- JQUERY REMOVED --**-- JQUERY REMOVED --**-- JQUERY REMOVED --**-- JQUERY REMOVED --**-- JQUERY REMOVED --**-- JQUERY REMOVED
     destroy: function(event) {
       this.todos.splice(this.indexFromEl(event.target), 1);
