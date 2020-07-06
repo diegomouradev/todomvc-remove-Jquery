@@ -47,10 +47,11 @@ jQuery(function($) {
   const todoList = document.getElementById('todo-list');
 
   var App = {
+    // JQUERY REMOVED --**-- JQUERY REMOVED --**-- JQUERY REMOVED --**-- JQUERY REMOVED --**-- JQUERY REMOVED --**-- JQUERY REMOVED --**-- JQUERY REMOVED
     init: function() {
-      this.todos = util.store("todos-nojquery");
-      this.todoTemplate = Handlebars.compile($("#todo-template").html());
-      this.footerTemplate = Handlebars.compile($("#footer-template").html());
+      this.todos = util.store("todos-jquery");
+      this.todoTemplate = Handlebars.compile(document.getElementById("todo-template").innerHTML);
+      this.footerTemplate = Handlebars.compile(document.getElementById("footer-template").innerHTML);
       this.bindEvents();
 
       new Router({
@@ -105,12 +106,22 @@ jQuery(function($) {
 
     render: function() {
       var todos = this.getFilteredTodos();
-      $("#todo-list").html(this.todoTemplate(todos));
+      // var main  = document.getElementById('main');
+      // window.getComputedStyle(main);
+
+      // JQUERY REMOVED --**-- JQUERY REMOVED --**-- JQUERY REMOVED --**-- JQUERY REMOVED --**-- JQUERY REMOVED --**-- JQUERY REMOVED --**-- JQUERY REMOVED
+      var todoTemplateHTML = this.todoTemplate(todos);
+      todoList.innerHTML = todoTemplateHTML;
+      
+      // if (todos > 0) {
+      //   main.removeAttribute('display');
+      // }
+      
       $("#main").toggle(todos.length > 0);
       $("#toggle-all").prop("checked", this.getActiveTodos().length === 0);
       this.renderFooter();
       $("#new-todo").focus();
-      util.store("todos-jquery", this.todos);
+      util. store("todos-jquery", this.todos);
     },
 
 
