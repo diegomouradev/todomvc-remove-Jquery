@@ -36,16 +36,13 @@ var util = {
   }
 };
 
-var newTodo; //assigned on bindEvent
-var toggleAll; //assigned on bindEvents
+
+var newTodo;
 const todoList = document.getElementById('todo-list');
 
 var App = {
-  // JQUERY REMOVED --**-- JQUERY REMOVED --**-- JQUERY REMOVED --**-- JQUERY REMOVED --**-- JQUERY REMOVED --**-- JQUERY REMOVED --**-- JQUERY REMOVED
   init: function() {
-    this.todos = util.store("todos-jquery");
-    // this.todoTemplate = Handlebars.compile($('#todo-template').html());
-    // this.footerTemplate = Handlebars.compile($('#footer-template').html());
+    this.todos = util.store("todos-nojquery");
     this.todoTemplate = Handlebars.compile(document.getElementById("todo-template").innerHTML);
     this.footerTemplate = Handlebars.compile(document.getElementById("footer-template").innerHTML);
     this.bindEvents();
@@ -57,20 +54,22 @@ var App = {
       }.bind(this)
     }).init("/all");
   },
-
   bindEvents: function() {
-    // var declared outside of the object.
+    
     newTodo = document.getElementById('new-todo');
     newTodo.addEventListener('keyup', this.create.bind(this));
+
     // var declared outside of the object.
-    toggleAll = document.getElementById('toggle-all');
+    var toggleAll = document.getElementById('toggle-all');
     toggleAll.addEventListener('change', this.toggleAll.bind(this));
+
     var clearCompleted = document.getElementById('footer');
     clearCompleted.addEventListener('click', function(){
       var elementClicked = event.target.id;
       if (elementClicked === 'clear-completed')
       App.destroyCompleted(event);
     });
+
     //const todoList declared outside of the object for global scope.  
     todoList.addEventListener('change', function() {
       var elementClicked = event.target;
@@ -89,34 +88,42 @@ var App = {
       if (elementClicked.tagName === 'LABEL' && numberOfClicks === 2 )
         App.edit(event);
     });
+
     todoList.addEventListener('keyup', this.editKeyup.bind(this));
+
     todoList.addEventListener('focusout', function(){
       var elementClicked = event.target;
       if (elementClicked.className === 'edit')
       App.update(event);
     });
   },
-
-
   render: function() {
     var todos = this.getFilteredTodos();
     var main  = document.getElementById('main');
     var toggleAllButton = document.getElementById('toggle-all');
+
+    // todoTemplateHTML is assigned the handlebars template with the todos array passed in it.
     var todoTemplateHTML = this.todoTemplate(todos);
     todoList.innerHTML = todoTemplateHTML;
+
+    //display todos list if the count is more than 1.
     if (todos.length > 0) {
       main.style.display = "block";
     } else {
       main.style.display = 'none';
     };
+
+    // active and unactive state for the toggle all button.
     if (this.getActiveTodos().length === 0) {
       toggleAllButton.checked = true;
     } else {
       toggleAllButton.checked = false;
     };
+
+
     this.renderFooter();
     newTodo.focus();
-    util.store("todos-jquery", this.todos);
+    util.store("todos-nojquery", this.todos);
   },
     renderFooter: function() {
     var todoCount = this.todos.length;
@@ -210,8 +217,7 @@ var App = {
   edit: function(event) {
     var todoLi = event.target.closest('li');
     todoLi.classList.add('editing');
-    var input = todoLi.querySelector('.edit');//.classList.add('editing');
-    // var input = document.getElementsByClassName('edit');
+    var input = todoLi.querySelector('.edit');
     input.focus();
   },
   editKeyup: function(event) {
