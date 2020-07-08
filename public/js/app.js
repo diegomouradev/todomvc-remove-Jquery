@@ -1,7 +1,3 @@
-Handlebars.registerHelper("eq", function(a, b, options) {
-  return a === b ? options.fn(this) : options.inverse(this);
-});
-
 var ENTER_KEY = 13;
 var ESCAPE_KEY = 27;
 
@@ -37,12 +33,17 @@ var util = {
 };
 
 var elTodoUl = document.getElementById('todo-list');
-var template;
+var elFooter = document.getElementById('footer');
 
 var Build = {
   template: function() {
+
+    //cleans the HTML from the UL element, before injecting it with the new and/or updated version of the template.
+    elTodoUl.innerHTML = '';
+
+    //Build the template literal forEach item on the todos array.
     App.todos.forEach( function(todos){
-      template = 
+      var templateTodoUl = 
       `<li id="${todos.id}" ${todos.completed ? 'class="completed"' : ''}>
         <div class="view">
           <input class="toggle" type="checkbox" ${todos.completed ? 'checked' : ''}>
@@ -52,11 +53,37 @@ var Build = {
       <input class="edit" value="${todos.title}">
       </li>`;
 
-      elTodoUl.insertAdjacentHTML('beforeend', template);
-      // elTodoUl.innerHTML = template;
+      elTodoUl.insertAdjacentHTML('beforeend', templateTodoUl);
+
     });
 
-    // When I add a todo it duplicates the template.
+    var todoCount = App.todos.length;
+    var activeTodoCount = App.getActiveTodos().length;
+    var footerInfo = {
+      activeTodoCount: activeTodoCount,
+      activeTodoWord: util.pluralize(activeTodoCount, "item"),
+      completedTodos: todoCount - activeTodoCount,
+      filter: App.filter
+    };
+    
+    elFooter.innerHTML = '';
+
+    var footerTemplate = 
+    `<span id="todo-count"> ${footerInfo.activeTodoCount}<strong> ${footerInfo.activeTodoWord} left</span>
+      <ul id="filters">
+          <li>
+            <a ${footerInfo.filter === 'all' ? 'class="selected"' : ""} href="#/all">All</a>
+          </li>
+          <li>
+            <a ${footerInfo.filter === 'active' ? 'class="selected"' : ""} href="#/active">Active</a>
+          </li>
+          <li>
+            <a ${footerInfo.filter === 'completed' ? 'class="selected"' : ""} href="#/completed">Completed</a>
+          </li>
+      </ul>
+      ${footerInfo.completedTodos > 0 ? '<button id="clear-completed">Clear completed</button>':''}`;
+
+      elFooter.insertAdjacentHTML('beforeend', footerTemplate);
   }
 };
 
@@ -66,13 +93,9 @@ var clearCompleted = document.getElementById('footer');
 
 var App = {
   init: function() {
-    this.todos = util.store("todos-nojquery");
+    this.todos = util.store("todos");
     this.todos > 0 ? Build.template() + this.bindEvents() : (this.bindEvents())
   
-    // this.todoTemplate = Handlebars.compile(document.getElementById("todo-template").innerHTML);
-    this.footerTemplate = Handlebars.compile(document.getElementById("footer-template").innerHTML);
-    
-    
     new Router({
       "/:filter": function(filter) {
         this.filter = filter;
@@ -92,25 +115,28 @@ var App = {
       App.destroyCompleted(event);
     });
 
-    
     elTodoUl.addEventListener('change', function() {
       var elementClicked = event.target;
       if (elementClicked.className === 'toggle')
         App.toggle(event);
     });
+
     elTodoUl.addEventListener('click', function() {
       var elementClicked = event.target;
       var numberOfClicks = event.detail;
       if (elementClicked.className === 'destroy' && numberOfClicks === 1 )
         App.destroy(event);
     });
+
     elTodoUl.addEventListener('dblclick', function(){
       var elementClicked = event.target;
       var numberOfClicks = event.detail;
       if (elementClicked.tagName === 'LABEL' && numberOfClicks === 2 )
         App.edit(event);
     });
+
     elTodoUl.addEventListener('keyup', this.editKeyup.bind(this));
+
     elTodoUl.addEventListener('focusout', function(){
       var elementClicked = event.target;
       if (elementClicked.className === 'edit')
@@ -118,10 +144,12 @@ var App = {
     });
   },
   render: function() {
-    Build.template();
     var todos = this.getFilteredTodos();
     var elMain  = document.getElementById('main');
     var toggleAllButton = document.getElementById('toggle-all');
+
+    //Call build template every time render is ran.
+    Build.template();
 
     if (todos.length > 0) {
       elMain.style.display = "block";
@@ -137,22 +165,13 @@ var App = {
 
     this.renderFooter();
     inputNewTodo.focus();
-    util.store("todos-nojquery", this.todos);
+    util.store("todos", this.todos);
   },
-    renderFooter: function() {
-    var todoCount = this.todos.length;
-    var activeTodoCount = this.getActiveTodos().length;
-    var footerTemplateHTML = this.footerTemplate({
-      activeTodoCount: activeTodoCount,
-      activeTodoWord: util.pluralize(activeTodoCount, "item"),
-      completedTodos: todoCount - activeTodoCount,
-      filter: this.filter
-    });
-
-    var elFooter = document.getElementById('footer');
+  renderFooter: function() {
+    let todoCount = this.todos.length;
+    
     if (todoCount > 0) {
       elFooter.style.display = 'block';
-      elFooter.innerHTML = footerTemplateHTML;
     } else {
       elFooter.style.display = 'none';
     }
@@ -267,7 +286,5 @@ var App = {
     this.render();
   }
 };
-
-
 
 App.init();
