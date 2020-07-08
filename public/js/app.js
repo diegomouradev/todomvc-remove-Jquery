@@ -36,17 +36,41 @@ var util = {
   }
 };
 
+var elTodoUl = document.getElementById('todo-list');
+var template;
 
-var newTodo;
-const todoList = document.getElementById('todo-list');
+var Build = {
+  template: function() {
+    App.todos.forEach( function(todos){
+      template = `<li id="${todos.id}" class="${todos.completed ? `completed`: `` };>
+      <div class="view">
+      <input class="toggle" type="checkbox" ${todos.completed ? `checked=""` : ``}>
+      <label>${todos.title}</label>
+      <button class="destroy"></button>
+      </div>
+      <input class="edit" value="${todos.title}">
+      </li>`;
+      elTodoUl.insertAdjacentHTML('beforeend', template);
+    }),
+    updateTemplate: function () {
+
+    }
+  }
+}
+var inputNewTodo = document.getElementById('new-todo');;
+var toggleAll = document.getElementById('toggle-all');
+var clearCompleted = document.getElementById('footer');
 
 var App = {
   init: function() {
     this.todos = util.store("todos-nojquery");
-    this.todoTemplate = Handlebars.compile(document.getElementById("todo-template").innerHTML);
-    this.footerTemplate = Handlebars.compile(document.getElementById("footer-template").innerHTML);
-    this.bindEvents();
+    this.todos > 0 ? Build.template() + this.bindEvents() : (this.bindEvents())
+  
 
+    // this.todoTemplate = Handlebars.compile(document.getElementById("todo-template").innerHTML);
+    this.footerTemplate = Handlebars.compile(document.getElementById("footer-template").innerHTML);
+    
+    
     new Router({
       "/:filter": function(filter) {
         this.filter = filter;
@@ -55,74 +79,62 @@ var App = {
     }).init("/all");
   },
   bindEvents: function() {
-    
-    newTodo = document.getElementById('new-todo');
-    newTodo.addEventListener('keyup', this.create.bind(this));
 
-    // var declared outside of the object.
-    var toggleAll = document.getElementById('toggle-all');
+    inputNewTodo.addEventListener('keyup', this.create.bind(this));
+
     toggleAll.addEventListener('change', this.toggleAll.bind(this));
 
-    var clearCompleted = document.getElementById('footer');
     clearCompleted.addEventListener('click', function(){
       var elementClicked = event.target.id;
       if (elementClicked === 'clear-completed')
       App.destroyCompleted(event);
     });
 
-    //const todoList declared outside of the object for global scope.  
-    todoList.addEventListener('change', function() {
+    
+    elTodoUl.addEventListener('change', function() {
       var elementClicked = event.target;
       if (elementClicked.className === 'toggle')
         App.toggle(event);
     });
-    todoList.addEventListener('click', function() {
+    elTodoUl.addEventListener('click', function() {
       var elementClicked = event.target;
       var numberOfClicks = event.detail;
       if (elementClicked.className === 'destroy' && numberOfClicks === 1 )
         App.destroy(event);
     });
-    todoList.addEventListener('dblclick', function(){
+    elTodoUl.addEventListener('dblclick', function(){
       var elementClicked = event.target;
       var numberOfClicks = event.detail;
       if (elementClicked.tagName === 'LABEL' && numberOfClicks === 2 )
         App.edit(event);
     });
-
-    todoList.addEventListener('keyup', this.editKeyup.bind(this));
-
-    todoList.addEventListener('focusout', function(){
+    elTodoUl.addEventListener('keyup', this.editKeyup.bind(this));
+    elTodoUl.addEventListener('focusout', function(){
       var elementClicked = event.target;
       if (elementClicked.className === 'edit')
       App.update(event);
     });
   },
   render: function() {
+    Build.template();
     var todos = this.getFilteredTodos();
-    var main  = document.getElementById('main');
+    var elMain  = document.getElementById('main');
     var toggleAllButton = document.getElementById('toggle-all');
 
-    // todoTemplateHTML is assigned the handlebars template with the todos array passed in it.
-    var todoTemplateHTML = this.todoTemplate(todos);
-    todoList.innerHTML = todoTemplateHTML;
-
-    //display todos list if the count is more than 1.
     if (todos.length > 0) {
-      main.style.display = "block";
+      elMain.style.display = "block";
     } else {
-      main.style.display = 'none';
+      elMain.style.display = 'none';
     };
 
-    // active and unactive state for the toggle all button.
     if (this.getActiveTodos().length === 0) {
       toggleAllButton.checked = true;
     } else {
       toggleAllButton.checked = false;
     };
 
-
     this.renderFooter();
-    newTodo.focus();
+    inputNewTodo.focus();
     util.store("todos-nojquery", this.todos);
   },
     renderFooter: function() {
@@ -135,12 +147,12 @@ var App = {
       filter: this.filter
     });
 
-    var footer = document.getElementById('footer');
+    var elFooter = document.getElementById('footer');
     if (todoCount > 0) {
-      footer.style.display = 'block';
-      footer.innerHTML = footerTemplateHTML;
+      elFooter.style.display = 'block';
+      elFooter.innerHTML = footerTemplateHTML;
     } else {
-      footer.style.display = 'none';
+      elFooter.style.display = 'none';
     }
   },
   toggleAll: function(event) {
@@ -205,7 +217,7 @@ var App = {
       completed: false
     });
 
-    newTodo.value = "";
+    inputNewTodo.value = "";
 
     this.render();
   },
@@ -215,9 +227,9 @@ var App = {
     this.render();
   },
   edit: function(event) {
-    var todoLi = event.target.closest('li');
-    todoLi.classList.add('editing');
-    var input = todoLi.querySelector('.edit');
+    var elTodoLi = event.target.closest('li');
+    elTodoLi.classList.add('editing');
+    var input = elTodoLi.querySelector('.edit');
     input.focus();
   },
   editKeyup: function(event) {
@@ -253,5 +265,7 @@ var App = {
     this.render();
   }
 };
+
+
 
 App.init();
