@@ -46,7 +46,7 @@ var App = {
     this.todoTemplate = Handlebars.compile(document.getElementById("todo-template").innerHTML);
     this.footerTemplate = Handlebars.compile(document.getElementById("footer-template").innerHTML);
     this.bindEvents();
-
+    
     new Router({
       "/:filter": function(filter) {
         this.filter = filter;
@@ -104,6 +104,7 @@ var App = {
 
     // todoTemplateHTML is assigned the handlebars template with the todos array passed in it.
     var todoTemplateHTML = this.todoTemplate(todos);
+    
     todoList.innerHTML = todoTemplateHTML;
 
     //display todos list if the count is more than 1.
@@ -113,13 +114,14 @@ var App = {
       main.style.display = 'none';
     };
 
-    // active and unactive state for the toggle all button.
+    // active and unable state for the toggle all button.
     if (this.getActiveTodos().length === 0) {
       toggleAllButton.checked = true;
     } else {
       toggleAllButton.checked = false;
     };
 
+    this.assembleTemplate();
 
     this.renderFooter();
     newTodo.focus();
