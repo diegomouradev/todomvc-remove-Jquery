@@ -255,5 +255,4 @@ var App = {
     this.render();
   }
 };
-
 App.init();
