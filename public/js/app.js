@@ -42,22 +42,25 @@ var template;
 var Build = {
   template: function() {
     App.todos.forEach( function(todos){
-      template = `<li id="${todos.id}" class="${todos.completed ? `completed`: `` };>
-      <div class="view">
-      <input class="toggle" type="checkbox" ${todos.completed ? `checked=""` : ``}>
-      <label>${todos.title}</label>
-      <button class="destroy"></button>
-      </div>
+      template = 
+      `<li id="${todos.id}" ${todos.completed ? 'class="completed"' : ''}>
+        <div class="view">
+          <input class="toggle" type="checkbox" ${todos.completed ? 'checked' : ''}>
+          <label>${todos.title}</label>
+          <button class="destroy"></button>
+        </div>
       <input class="edit" value="${todos.title}">
       </li>`;
-      elTodoUl.insertAdjacentHTML('beforeend', template);
-    }),
-    updateTemplate: function () {
 
-    }
+      elTodoUl.insertAdjacentHTML('beforeend', template);
+      // elTodoUl.innerHTML = template;
+    });
+
+    // When I add a todo it duplicates the template.
   }
-}
-var inputNewTodo = document.getElementById('new-todo');;
+};
+
+var inputNewTodo = document.getElementById('new-todo');
 var toggleAll = document.getElementById('toggle-all');
 var clearCompleted = document.getElementById('footer');
 
@@ -66,7 +69,6 @@ var App = {
     this.todos = util.store("todos-nojquery");
     this.todos > 0 ? Build.template() + this.bindEvents() : (this.bindEvents())
   
-
     // this.todoTemplate = Handlebars.compile(document.getElementById("todo-template").innerHTML);
     this.footerTemplate = Handlebars.compile(document.getElementById("footer-template").innerHTML);
     
@@ -193,7 +195,7 @@ var App = {
   // accepts an element from inside the `.item` div and
   // returns the corresponding index in the `todos` array
   indexFromEl: function(elementClicked) {
-    var id = elementClicked.closest('li').dataset.id;
+    var id = elementClicked.closest('li').id;
     var todos = this.todos;
     var i = todos.length;
 
