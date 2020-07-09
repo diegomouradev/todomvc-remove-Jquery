@@ -69,7 +69,7 @@ var Build = {
     elFooter.innerHTML = '';
 
     var footerTemplate = 
-    `<span id="todo-count"><strong>${footerInfo.activeTodoCount}</strong> ${footerInfo.activeTodoWord} left</span>
+    `<span id="todo-count"> ${footerInfo.activeTodoCount}<strong> ${footerInfo.activeTodoWord} left</span>
       <ul id="filters">
           <li>
             <a ${footerInfo.filter === 'all' ? 'class="selected"' : ""} href="#/all">All</a>
